@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QuestHub</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:#0b1220;
+color:white;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+h1{
+font-size:32px;
+}
+
+.card{
+background:#151f31;
+border:1px solid #293750;
+border-radius:18px;
+padding:20px;
+margin:15px 0;
+}
+
+button,
+input,
+textarea{
+width:100%;
+padding:13px;
+margin-top:8px;
+border-radius:12px;
+font-size:16px;
+}
+
+input,
+textarea{
+background:#0d1625;
+border:1px solid #3b4a65;
+color:white;
+}
+
+textarea{
+min-height:90px;
+}
+
+button{
+background:#3867ff;
+color:white;
+border:0;
+font-weight:bold;
+cursor:pointer;
+}
+
+.secondary{
+background:#293750;
+}
+
+.danger{
+background:#b9364b;
+}
+
+.hidden{
+display:none;
+}
+
+.player{
+background:#101a2a;
+padding:14px;
+border-radius:14px;
+margin-top:10px;
+}
+
+.tag{
+display:inline-block;
+background:#263653;
+padding:5px 9px;
+border-radius:20px;
+margin:3px;
+}
+
+.good{
+color:#6ee7a0;
+}
+
+.bad{
+color:#ff8795;
+}
+
+.tabs{
+display:flex;
+gap:8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎯 QuestHub</h1>
+
+<p>
+Система домашніх квестів
+</p>
+
+
+<!-- ГОЛОВНИЙ ЕКРАН -->
+
+<div id="home" class="card">
+
+<h2>Вхід</h2>
+
+<button onclick="openPlayer()">
+👤 Я гравець
+</button>
+
+<button class="secondary" onclick="openAdmin()">
+🛠️ Я адмін
+</button>
+
+</div>
+
+
+<!-- ГРАВЕЦЬ -->
+
+<div id="playerScreen" class="hidden">
+
+<button class="secondary" onclick="goHome()">
+← Назад
+</button>
+
+<div class="card">
+
+<h2>👤 Кабінет гравця</h2>
+
+<input
+id="playerCode"
+placeholder="Код гравця, наприклад P001"
+>
+
+<button onclick="loginPlayer()">
+Увійти
+</button>
+
+<div id="playerInfo"></div>
+
+</div>
+
+<div id="playerQuest"></div>
+
+</div>
+
+
+<!-- АДМІН -->
+
+<div id="adminScreen" class="hidden">
+
+<button class="secondary" onclick="goHome()">
+← Вихід
+</button>
+
+
+<div class="tabs">
+
+<button onclick="showAdmin('players')">
+👥 Гравці
+</button>
+
+<button onclick="showAdmin('quests')">
+🎮 Квести
+</button>
+
+<button onclick="showAdmin('results')">
+🏆 Результати
+</button>
+
+</div>
+
+
+<!-- ГРАВЦІ -->
+
+<div id="playersTab" class="card">
+
+<h2>👥 Гравці</h2>
+
+<input
+id="playerName"
+placeholder="Ім'я"
+>
+
+<input
+id="playerSurname"
+placeholder="Прізвище"
+>
+
+<input
+id="playerAge"
+placeholder="Вік"
+>
+
+<input
+id="playerTeam"
+placeholder="Команда"
+>
+
+<button onclick="addPlayer()">
+➕ Додати гравця
+</button>
+
+<div id="playersList"></div>
+
+</div>
+
+
+<!-- КВЕСТИ -->
+
+<div id="questsTab" class="card hidden">
+
+<h2>🎮 Квести</h2>
+
+<input
+id="questName"
+placeholder="Назва квесту"
+>
+
+<textarea
+id="questDescription"
+placeholder="Опис квесту">
+</textarea>
+
+<button onclick="createQuest()">
+➕ Створити квест
+</button>
+
+<div id="questsList"></div>
+
+</div>
+
+
+<!-- РЕЗУЛЬТАТИ -->
+
+<div id="resultsTab" class="card hidden">
+
+<h2>🏆 Рейтинг</h2>
+
+<div id="resultsList"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+БАЗА
+========================= */
+
+let database =
+JSON.parse(
+localStorage.getItem("questhub_database")
+)
+||
+{
+players:[],
+quests:[]
+};
+
+
+function saveDatabase(){
+
+localStorage.setItem(
+"questhub_database",
+JSON.stringify(database)
+);
+
+}
+
+
+/* =========================
+НАВІГАЦІЯ
+========================= */
+
+function hideAll(){
+
+document
+.querySelectorAll(".container > div")
+.forEach(
+x=>x.classList.add("hidden")
+);
+
+}
+
+
+function goHome(){
+
+hideAll();
+
+document
+.getElementById("home")
+.classList.remove("hidden");
+
+}
+
+
+function openPlayer(){
+
+hideAll();
+
+document
+.getElementById("playerScreen")
+.classList.remove("hidden");
+
+}
+
+
+/* =========================
+АДМІН
+ПАРОЛЬ: 2016
+========================= */
+
+function openAdmin(){
+
+let password =
+prompt(
+"Введи пароль адміністратора:"
+);
+
+
+if(password !== "2016"){
+
+alert(
+"❌ Неправильний пароль"
+);
+
+return;
+
+}
+
+
+hideAll();
+
+
+document
+.getElementById("adminScreen")
+.classList.remove("hidden");
+
+
+renderPlayers();
+
+renderQuests();
+
+renderResults();
+
+}
+
+
+/* =========================
+АДМІН МЕНЮ
+========================= */
+
+function showAdmin(tab){
+
+document
+.getElementById("playersTab")
+.classList.add("hidden");
+
+document
+.getElementById("questsTab")
+.classList.add("hidden");
+
+document
+.getElementById("resultsTab")
+.classList.add("hidden");
+
+
+if(tab==="players"){
+
+document
+.getElementById("playersTab")
+.classList.remove("hidden");
+
+}
+
+
+if(tab==="quests"){
+
+document
+.getElementById("questsTab")
+.classList.remove("hidden");
+
+}
+
+
+if(tab==="results"){
+
+document
+.getElementById("resultsTab")
+.classList.remove("hidden");
+
+}
+
+}
+
+
+/* =========================
+ДОДАВАННЯ ГРАВЦЯ
+========================= */
+
+function addPlayer(){
+
+let name =
+document
+.getElementById("playerName")
+.value.trim();
+
+
+let surname =
+document
+.getElementById("playerSurname")
+.value.trim();
+
+
+let age =
+document
+.getElementById("playerAge")
+.value.trim();
+
+
+let team =
+document
+.getElementById("playerTeam")
+.value.trim();
+
+
+if(!name || !surname){
+
+alert(
+"Введи ім'я та прізвище"
+);
+
+return;
+
+}
+
+
+let number =
+database.players.length + 1;
+
+
+let code =
+"P" +
+String(number)
+.padStart(3,"0");
+
+
+while(
+database.players.some(
+p=>p.code===code
+)
+){
+
+number++;
+
+code =
+"P" +
+String(number)
+.padStart(3,"0");
+
+}
+
+
+database.players.push({
+
+id:Date.now(),
+
+code:code,
+
+name:name,
+
+surname:surname,
+
+age:age,
+
+team:team,
+
+points:0,
+
+completed:[]
+
+});
+
+
+saveDatabase();
+
+renderPlayers();
+
+renderResults();
+
+
+document.getElementById(
+"playerName"
+).value="";
+
+
+document.getElementById(
+"playerSurname"
+).value="";
+
+
+document.getElementById(
+"playerAge"
+).value="";
+
+
+document.getElementById(
+"playerTeam"
+).value="";
+
+
+alert(
+"✅ Гравця додано!\n\nКод гравця: "
++
+code
+);
+
+}
+
+
+/* =========================
+СПИСОК ГРАВЦІВ
+========================= */
+
+function renderPlayers(){
+
+let box =
+document.getElementById(
+"playersList"
+);
+
+
+if(database.players.length===0){
+
+box.innerHTML =
+"<p>Гравців ще немає.</p>";
+
+return;
+
+}
+
+
+box.innerHTML =
+database.players.map(
+(p,index)=>`
+
+<div class="player">
+
+<b>
+${escapeHTML(p.name)}
+${escapeHTML(p.surname)}
+</b>
+
+<span class="tag">
+${p.code}
+</span>
+
+<br><br>
+
+Вік:
+${escapeHTML(p.age || "—")}
+
+<br>
+
+Команда:
+${escapeHTML(p.team || "—")}
+
+<br>
+
+⭐ ${p.points} балів
+
+<button
+class="danger"
+onclick="deletePlayer(${index})">
+
+Видалити
+
+</button>
+
+</div>
+
+`
+).join("");
+
+}
+
+
+function deletePlayer(index){
+
+if(
+confirm(
+"Видалити цього гравця?"
+)
+){
+
+database.players.splice(
+index,
+1
+);
+
+saveDatabase();
+
+renderPlayers();
+
+renderResults();
+
+}
+
+}
+
+
+/* =========================
+СТВОРЕННЯ КВЕСТУ
+========================= */
+
+function createQuest(){
+
+let name =
+document
+.getElementById("questName")
+.value.trim();
+
+
+let description =
+document
+.getElementById("questDescription")
+.value.trim();
+
+
+if(!name){
+
+alert(
+"Введи назву квесту"
+);
+
+return;
+
+}
+
+
+database.quests.push({
+
+id:Date.now(),
+
+name:name,
+
+description:description,
+
+tasks:[]
+
+});
+
+
+saveDatabase();
+
+renderQuests();
+
+
+document.getElementById(
+"questName"
+).value="";
+
+
+document.getElementById(
+"questDescription"
+).value="";
+
+}
+
+
+/* =========================
+СПИСОК КВЕСТІВ
+========================= */
+
+function renderQuests(){
+
+let box =
+document.getElementById(
+"questsList"
+);
+
+
+if(database.quests.length===0){
+
+box.innerHTML =
+"<p>Квестів ще немає.</p>";
+
+return;
+
+}
+
+
+box.innerHTML =
+database.quests.map(
+(q,index)=>`
+
+<div class="player">
+
+<h3>
+🎮 ${escapeHTML(q.name)}
+</h3>
+
+<p>
+${escapeHTML(q.description)}
+</p>
+
+<p>
+🧩 Завдань:
+${q.tasks.length}
+</p>
+
+<button
+onclick="addTask(${index})">
+
+➕ Додати завдання
+
+</button>
+
+
+${q.tasks.map(
+(task,taskIndex)=>`
+
+<div class="player">
+
+<b>
+🧩 ${taskIndex+1}.
+${escapeHTML(task.title)}
+</b>
+
+<br>
+
+⭐ ${task.points} балів
+
+<button
+class="danger"
+onclick="deleteTask(${index},${taskIndex})">
+
+Видалити завдання
+
+</button>
+
+</div>
+
+`
+).join("")}
+
+
+<button
+class="danger"
+onclick="deleteQuest(${index})">
+
+Видалити квест
+
+</button>
+
+</div>
+
+`
+).join("");
+
+}
+
+
+/* =========================
+ДОДАТИ ЗАВДАННЯ
+========================= */
+
+function addTask(questIndex){
+
+let title =
+prompt(
+"Назва завдання:"
+);
+
+
+if(!title)
+return;
+
+
+let answer =
+prompt(
+"Правильна відповідь:"
+);
+
+
+if(!answer)
+return;
+
+
+let points =
+Number(
+prompt(
+"Скільки балів?",
+"100"
+)
+);
+
+
+if(!points)
+points=100;
+
+
+database
+.quests[questIndex]
+.tasks
+.push({
+
+id:Date.now(),
+
+title:title,
+
+answer:
+answer
+.toLowerCase()
+.trim(),
+
+points:points
+
+});
+
+
+saveDatabase();
+
+renderQuests();
+
+}
+
+
+/* =========================
+ВИДАЛИТИ ЗАВДАННЯ
+========================= */
+
+function deleteTask(
+questIndex,
+taskIndex
+){
+
+database
+.quests[questIndex]
+.tasks
+.splice(
+taskIndex,
+1
+);
+
+
+saveDatabase();
+
+renderQuests();
+
+}
+
+
+/* =========================
+ВИДАЛИТИ КВЕСТ
+========================= */
+
+function deleteQuest(index){
+
+if(
+confirm(
+"Видалити цей квест?"
+)
+){
+
+database.quests.splice(
+index,
+1
+);
+
+saveDatabase();
+
+renderQuests();
+
+}
+
+}
+
+
+/* =========================
+ВХІД ГРАВЦЯ
+========================= */
+
+function loginPlayer(){
+
+let code =
+document
+.getElementById("playerCode")
+.value
+.trim()
+.toUpperCase();
+
+
+let player =
+database.players.find(
+p=>p.code===code
+);
+
+
+let info =
+document.getElementById(
+"playerInfo"
+);
+
+
+if(!player){
+
+info.innerHTML =
+`
+<p class="bad">
+❌ Гравця не знайдено.
+</p>
+`;
+
+return;
+
+}
+
+
+info.innerHTML = `
+
+<div class="player">
+
+<h3>
+👋 Привіт,
+${escapeHTML(player.name)}
+!
+</h3>
+
+Прізвище:
+${escapeHTML(player.surname)}
+
+<br>
+
+Команда:
+${escapeHTML(player.team || "—")}
+
+<br>
+
+⭐ Бали:
+${player.points}
+
+</div>
+
+`;
+
+
+renderPlayerQuest(player);
+
+}
+
+
+/* =========================
+КВЕСТ ГРАВЦЯ
+========================= */
+
+function renderPlayerQuest(player){
+
+let box =
+document.getElementById(
+"playerQuest"
+);
+
+
+if(database.quests.length===0){
+
+box.innerHTML = `
+
+<div class="card">
+
+<h2>
+🎮 Квестів поки немає
+</h2>
+
+<p>
+Адмін ще не створив квест.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+let quest =
+database.quests[0];
+
+
+box.innerHTML = `
+
+<div class="card">
+
+<h2>
+🎮 ${escapeHTML(quest.name)}
+</h2>
+
+<p>
+${escapeHTML(quest.description)}
+</p>
+
+
+${quest.tasks.map(
+(task,index)=>`
+
+<div class="player">
+
+<h3>
+
+🧩 ${index+1}.
+${escapeHTML(task.title)}
+
+</h3>
+
+<p>
+⭐ ${task.points} балів
+</p>
+
+<input
+id="answer_${task.id}"
+placeholder="Введи відповідь"
+>
+
+<button
+onclick="
+checkAnswer(
+'${player.code}',
+${task.id}
+)
+">
+
+Перевірити
+
+</button>
+
+<div
+id="result_${task.id}">
+</div>
+
+</div>
+
+`
+).join("")}
+
+</div>
+
+`;
+
+}
+
+
+/* =========================
+ПЕРЕВІРКА ВІДПОВІДІ
+========================= */
+
+function checkAnswer(
+playerCode,
+taskId
+){
+
+let player =
+database.players.find(
+p=>p.code===playerCode
+);
+
+
+let task =
+database.quests
+.flatMap(
+q=>q.tasks
+)
+.find(
+t=>t.id===taskId
+);
+
+
+if(!player || !task)
+return;
+
+
+let input =
+document.getElementById(
+"answer_"+taskId
+);
+
+
+let result =
+document.getElementById(
+"result_"+taskId
+);
+
+
+if(
+player.completed.includes(
+task.id
+)
+){
+
+result.innerHTML =
+`
+<p class="good">
+✅ Завдання вже виконано.
+</p>
+`;
+
+return;
+
+}
+
+
+let answer =
+input.value
+.trim()
+.toLowerCase();
+
+
+if(answer===task.answer){
+
+player.points +=
+task.points;
+
+
+player.completed.push(
+task.id
+);
+
+
+saveDatabase();
+
+
+result.innerHTML =
+`
+<p class="good">
+
+✅ Правильно!
+
++${task.points} балів 🎉
+
+</p>
+`;
+
+}else{
+
+result.innerHTML =
+`
+<p class="bad">
+
+❌ Неправильно.
+
+Спробуй ще.
+
+</p>
+`;
+
+}
+
+}
+
+
+/* =========================
+РЕЙТИНГ
+========================= */
+
+function renderResults(){
+
+let box =
+document.getElementById(
+"resultsList"
+);
+
+
+let players =
+[...database.players]
+.sort(
+(a,b)=>
+b.points-a.points
+);
+
+
+if(players.length===0){
+
+box.innerHTML =
+"<p>Результатів ще немає.</p>";
+
+return;
+
+}
+
+
+box.innerHTML =
+players.map(
+(p,index)=>`
+
+<div class="player">
+
+<b>
+
+${index+1}.
+
+${escapeHTML(p.name)}
+
+${escapeHTML(p.surname)}
+
+</b>
+
+<span class="tag">
+
+${p.code}
+
+</span>
+
+<br>
+
+⭐ ${p.points} балів
+
+</div>
+
+`
+).join("");
+
+}
+
+
+/* =========================
+ЗАХИСТ ТЕКСТУ
+========================= */
+
+function escapeHTML(text){
+
+return String(text)
+
+.replaceAll("&","&amp;")
+
+.replaceAll("<","&lt;")
+
+.replaceAll(">","&gt;")
+
+.replaceAll('"',"&quot;")
+
+.replaceAll("'","&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
