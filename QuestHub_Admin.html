@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>QuestHub Admin</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:#080d18;
+color:white;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px;
+}
+
+h1{
+font-size:32px;
+margin-bottom:5px;
+}
+
+h2{
+margin-top:0;
+}
+
+.subtitle{
+color:#8fa0bd;
+}
+
+.card{
+background:#121b2c;
+border:1px solid #273650;
+border-radius:18px;
+padding:20px;
+margin:15px 0;
+}
+
+button,
+input,
+textarea,
+select{
+width:100%;
+padding:13px;
+margin-top:8px;
+border-radius:12px;
+font-size:16px;
+}
+
+input,
+textarea,
+select{
+background:#0b1322;
+border:1px solid #354663;
+color:white;
+}
+
+textarea{
+min-height:100px;
+resize:vertical;
+}
+
+button{
+background:#3867ff;
+color:white;
+border:0;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+opacity:.9;
+}
+
+.secondary{
+background:#273650;
+}
+
+.danger{
+background:#b9364b;
+}
+
+.good{
+background:#23885a;
+}
+
+.orange{
+background:#c47b25;
+}
+
+.hidden{
+display:none;
+}
+
+.tabs{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+margin:20px 0;
+}
+
+.tab{
+background:#18243a;
+}
+
+.tab.active{
+background:#3867ff;
+}
+
+.statGrid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+}
+
+.stat{
+background:#0d1626;
+border:1px solid #293750;
+border-radius:16px;
+padding:18px;
+}
+
+.statNumber{
+font-size:30px;
+font-weight:bold;
+margin-top:5px;
+}
+
+.quest{
+background:#0d1626;
+border:1px solid #293750;
+padding:17px;
+border-radius:16px;
+margin-top:12px;
+}
+
+.task{
+background:#151f31;
+border:1px solid #31415d;
+padding:15px;
+border-radius:14px;
+margin-top:10px;
+}
+
+.tag{
+display:inline-block;
+background:#263653;
+padding:5px 9px;
+border-radius:20px;
+margin:3px;
+font-size:13px;
+}
+
+.goodText{
+color:#6ee7a0;
+}
+
+.badText{
+color:#ff8795;
+}
+
+.muted{
+color:#8fa0bd;
+}
+
+.timer{
+font-size:52px;
+font-weight:bold;
+text-align:center;
+padding:25px;
+}
+
+.randomTask{
+font-size:20px;
+padding:20px;
+background:#0b1322;
+border-radius:15px;
+border:1px dashed #49618b;
+}
+
+.notice{
+background:#17243b;
+border-left:4px solid #3867ff;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+}
+
+.small{
+font-size:13px;
+}
+
+@media(max-width:700px){
+
+.tabs{
+grid-template-columns:repeat(2,1fr);
+}
+
+.statGrid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🎯 QuestHub</h1>
+<p class="subtitle">🛠️ Панель адміністратора</p>
+
+<!-- ===================== -->
+<!-- LOGIN -->
+<!-- ===================== -->
+
+<div id="loginScreen" class="card">
+
+<h2>🔐 Вхід адміністратора</h2>
+
+<p class="muted">
+Введи пароль для доступу до QuestHub.
+</p>
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Пароль"
+>
+
+<button onclick="loginAdmin()">
+🔓 Увійти
+</button>
+
+<p id="loginResult"></p>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- ADMIN -->
+<!-- ===================== -->
+
+<div id="adminScreen" class="hidden">
+
+<div class="card">
+
+<h2>👋 QuestHub Admin</h2>
+
+<p class="muted">
+Керуй домашніми квестами в одному місці.
+</p>
+
+<button
+class="secondary"
+onclick="logoutAdmin()">
+
+🚪 Вийти
+
+</button>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- TABS -->
+<!-- ===================== -->
+
+<div class="tabs">
+
+<button
+class="tab active"
+onclick="showTab('dashboard',this)">
+📊 Dashboard
+</button>
+
+<button
+class="tab"
+onclick="showTab('quests',this)">
+🎮 Квести
+</button>
+
+<button
+class="tab"
+onclick="showTab('results',this)">
+🏆 Результати
+</button>
+
+<button
+class="tab"
+onclick="showTab('timer',this)">
+⏱️ Таймер
+</button>
+
+<button
+class="tab"
+onclick="showTab('random',this)">
+🎲 Random
+</button>
+
+<button
+class="tab"
+onclick="showTab('notice',this)">
+📢 Оголошення
+</button>
+
+<button
+class="tab"
+onclick="showTab('settings',this)">
+⚙️ Налаштування
+</button>
+
+<button
+class="tab"
+onclick="showTab('backup',this)">
+💾 Дані
+</button>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- DASHBOARD -->
+<!-- ===================== -->
+
+<div id="dashboardTab">
+
+<div class="card">
+
+<h2>📊 Dashboard</h2>
+
+<div class="statGrid">
+
+<div class="stat">
+<div class="muted">Квестів</div>
+<div id="statQuests" class="statNumber">0</div>
+</div>
+
+<div class="stat">
+<div class="muted">Завдань</div>
+<div id="statTasks" class="statNumber">0</div>
+</div>
+
+<div class="stat">
+<div class="muted">Бали</div>
+<div id="statPoints" class="statNumber">0</div>
+</div>
+
+<div class="stat">
+<div class="muted">Оголошень</div>
+<div id="statNotices" class="statNumber">0</div>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⚡ Швидкі дії</h2>
+
+<button onclick="showTab('quests')">
+➕ Створити квест
+</button>
+
+<button
+class="secondary"
+onclick="showTab('timer')">
+⏱️ Запустити таймер
+</button>
+
+<button
+class="secondary"
+onclick="showTab('random')">
+🎲 Випадкове завдання
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🕐 Стан системи</h2>
+
+<p>
+🟢 Система:
+<span class="goodText">працює</span>
+</p>
+
+<p>
+💾 Сховище:
+<span class="goodText">LocalStorage</span>
+</p>
+
+<p>
+📅 Останнє відкриття:
+<span id="lastOpen">—</span>
+</p>
+
+</div>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- QUESTS -->
+<!-- ===================== -->
+
+<div id="questsTab" class="hidden">
+
+<div class="card">
+
+<h2>🎮 Створити квест</h2>
+
+<input
+id="questName"
+placeholder="Назва квесту"
+>
+
+<textarea
+id="questDescription"
+placeholder="Опис квесту">
+</textarea>
+
+<button onclick="createQuest()">
+➕ Створити квест
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🎮 Мої квести</h2>
+
+<div id="questsList"></div>
+
+</div>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- RESULTS -->
+<!-- ===================== -->
+
+<div id="resultsTab" class="hidden">
+
+<div class="card">
+
+<h2>🏆 Результати</h2>
+
+<p class="muted">
+Статистика проходження квестів.
+</p>
+
+<div id="resultsList"></div>
+
+</div>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- TIMER -->
+<!-- ===================== -->
+
+<div id="timerTab" class="hidden">
+
+<div class="card">
+
+<h2>⏱️ Таймер квесту</h2>
+
+<div
+id="timerDisplay"
+class="timer">
+10:00
+</div>
+
+<input
+id="timerMinutes"
+type="number"
+min="1"
+placeholder="Кількість хвилин"
+>
+
+<button onclick="startTimer()">
+▶️ Старт
+</button>
+
+<button
+class="secondary"
+onclick="pauseTimer()">
+⏸️ Пауза
+</button>
+
+<button
+class="danger"
+onclick="resetTimer()">
+🔄 Скинути
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- RANDOM -->
+<!-- ===================== -->
+
+<div id="randomTab" class="hidden">
+
+<div class="card">
+
+<h2>🎲 Випадкове завдання</h2>
+
+<p class="muted">
+Система випадково вибере одне завдання з усіх квестів.
+</p>
+
+<button onclick="randomTask()">
+🎲 Вибрати завдання
+</button>
+
+<div
+id="randomResult"
+class="randomTask"
+style="margin-top:15px;">
+Натисни кнопку 👆
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- NOTICE -->
+<!-- ===================== -->
+
+<div id="noticeTab" class="hidden">
+
+<div class="card">
+
+<h2>📢 Оголошення</h2>
+
+<textarea
+id="noticeText"
+placeholder="Наприклад: Квест починається о 19:00!">
+</textarea>
+
+<button onclick="addNotice()">
+📢 Опублікувати
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>📢 Активні оголошення</h2>
+
+<div id="noticesList"></div>
+
+</div>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- SETTINGS -->
+<!-- ===================== -->
+
+<div id="settingsTab" class="hidden">
+
+<div class="card">
+
+<h2>⚙️ Налаштування</h2>
+
+<label>Назва системи</label>
+
+<input
+id="systemName"
+placeholder="QuestHub"
+>
+
+<button onclick="saveSettings()">
+💾 Зберегти
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>🔐 Пароль адміністратора</h2>
+
+<input
+id="newPassword"
+type="password"
+placeholder="Новий пароль"
+>
+
+<button onclick="changePassword()">
+🔑 Змінити пароль
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ===================== -->
+<!-- BACKUP -->
+<!-- ===================== -->
+
+<div id="backupTab" class="hidden">
+
+<div class="card">
+
+<h2>💾 Дані QuestHub</h2>
+
+<p class="muted">
+Збережи резервну копію або віднови дані.
+</p>
+
+<button onclick="exportData()">
+📤 Експорт даних
+</button>
+
+<button
+class="secondary"
+onclick="importData()">
+📥 Імпорт даних
+</button>
+
+<input
+id="importFile"
+type="file"
+accept=".json"
+style="display:none"
+onchange="handleImport(event)"
+>
+
+</div>
+
+
+<div class="card">
+
+<h2>⚠️ Небезпечна зона</h2>
+
+<button
+class="danger"
+onclick="clearDatabase()">
+🗑️ Повністю очистити дані
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+DATABASE
+========================= */
+
+let database =
+JSON.parse(
+localStorage.getItem("questhub_database")
+)
+||
+{
+quests:[],
+notices:[],
+results:[]
+};
+
+
+let settings =
+JSON.parse(
+localStorage.getItem("questhub_settings")
+)
+||
+{
+name:"QuestHub",
+password:"2016"
+};
+
+
+function saveDatabase(){
+
+localStorage.setItem(
+"questhub_database",
+JSON.stringify(database)
+);
+
+}
+
+
+function saveSettingsData(){
+
+localStorage.setItem(
+"questhub_settings",
+JSON.stringify(settings)
+);
+
+}
+
+
+/* =========================
+LOGIN
+========================= */
+
+function loginAdmin(){
+
+let password =
+document
+.getElementById("adminPassword")
+.value;
+
+
+if(password === settings.password){
+
+document
+.getElementById("loginScreen")
+.classList.add("hidden");
+
+document
+.getElementById("adminScreen")
+.classList.remove("hidden");
+
+document
+.getElementById("lastOpen")
+.innerText =
+new Date().toLocaleString("uk-UA");
+
+renderAll();
+
+}else{
+
+document
+.getElementById("loginResult")
+.innerHTML =
+`
+<span class="badText">
+❌ Неправильний пароль
+</span>
+`;
+
+}
+
+}
+
+
+function logoutAdmin(){
+
+document
+.getElementById("adminScreen")
+.classList.add("hidden");
+
+document
+.getElementById("loginScreen")
+.classList.remove("hidden");
+
+document
+.getElementById("adminPassword")
+.value="";
+
+}
+
+
+/* =========================
+TABS
+========================= */
+
+function showTab(tab,button){
+
+let tabs=[
+"dashboard",
+"quests",
+"results",
+"timer",
+"random",
+"notice",
+"settings",
+"backup"
+];
+
+
+tabs.forEach(x=>{
+
+document
+.getElementById(x+"Tab")
+.classList.add("hidden");
+
+});
+
+
+document
+.getElementById(tab+"Tab")
+.classList.remove("hidden");
+
+
+document
+.querySelectorAll(".tab")
+.forEach(x=>{
+x.classList.remove("active");
+});
+
+
+if(button){
+
+button.classList.add("active");
+
+}
+
+}
+
+
+/* =========================
+CREATE QUEST
+========================= */
+
+function createQuest(){
+
+let name =
+document
+.getElementById("questName")
+.value
+.trim();
+
+
+let description =
+document
+.getElementById("questDescription")
+.value
+.trim();
+
+
+if(!name){
+
+alert("Введи назву квесту.");
+
+return;
+
+}
+
+
+database.quests.push({
+
+id:Date.now(),
+
+name:name,
+
+description:description,
+
+tasks:[],
+
+created:
+new Date().toLocaleString("uk-UA")
+
+});
+
+
+saveDatabase();
+
+document
+.getElementById("questName")
+.value="";
+
+document
+.getElementById("questDescription")
+.value="";
+
+
+renderAll();
+
+alert("✅ Квест створено!");
+
+}
+
+
+/* =========================
+RENDER QUESTS
+========================= */
+
+function renderQuests(){
+
+let box =
+document
+.getElementById("questsList");
+
+
+if(database.quests.length===0){
+
+box.innerHTML=
+`
+<p class="muted">
+Квестів ще немає.
+</p>
+`;
+
+return;
+
+}
+
+
+box.innerHTML =
+database.quests
+.map((q,index)=>`
+
+<div class="quest">
+
+<h3>
+🎮 ${escapeHTML(q.name)}
+</h3>
+
+<p class="muted">
+${escapeHTML(q.description || "Без опису")}
+</p>
+
+<span class="tag">
+🧩 ${q.tasks.length} завдань
+</span>
+
+<span class="tag">
+📅 ${q.created}
+</span>
+
+
+<button
+onclick="addTask(${index})">
+➕ Додати завдання
+</button>
+
+
+${q.tasks.map(
+(task,taskIndex)=>`
+
+<div class="task">
+
+<b>
+🧩 ${taskIndex+1}.
+${escapeHTML(task.title)}
+</b>
+
+<p class="muted">
+⭐ ${task.points} балів
+</p>
+
+<button
+class="danger"
+onclick="deleteTask(${index},${taskIndex})">
+🗑️ Видалити завдання
+</button>
+
+</div>
+
+`
+).join("")}
+
+
+<button
+class="danger"
+onclick="deleteQuest(${index})">
+🗑️ Видалити квест
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+ADD TASK
+========================= */
+
+function addTask(questIndex){
+
+let title =
+prompt("🧩 Назва завдання:");
+
+
+if(!title)
+return;
+
+
+let answer =
+prompt("✅ Правильна відповідь:");
+
+
+if(!answer)
+return;
+
+
+let points =
+Number(
+prompt(
+"⭐ Кількість балів:",
+"100"
+)
+);
+
+
+if(!points)
+points=100;
+
+
+database
+.quests[questIndex]
+.tasks
+.push({
+
+id:Date.now(),
+
+title:title,
+
+answer:
+answer
+.toLowerCase()
+.trim(),
+
+points:points
+
+});
+
+
+saveDatabase();
+
+renderAll();
+
+}
+
+
+/* =========================
+DELETE TASK
+========================= */
+
+function deleteTask(
+questIndex,
+taskIndex
+){
+
+if(
+!confirm(
+"Видалити це завдання?"
+)
+)
+return;
+
+
+database
+.quests[questIndex]
+.tasks
+.splice(
+taskIndex,
+1
+);
+
+
+saveDatabase();
+
+renderAll();
+
+}
+
+
+/* =========================
+DELETE QUEST
+========================= */
+
+function deleteQuest(index){
+
+if(
+!confirm(
+"Видалити весь квест разом із завданнями?"
+)
+)
+return;
+
+
+database.quests.splice(
+index,
+1
+);
+
+saveDatabase();
+
+renderAll();
+
+}
+
+
+/* =========================
+RESULTS
+========================= */
+
+function renderResults(){
+
+let box =
+document
+.getElementById("resultsList");
+
+
+if(database.results.length===0){
+
+box.innerHTML=
+`
+<p class="muted">
+Результатів ще немає.
+</p>
+`;
+
+return;
+
+}
+
+
+box.innerHTML =
+database.results
+.map((r,index)=>`
+
+<div class="quest">
+
+<h3>
+🏆 ${index+1}. ${escapeHTML(r.name)}
+</h3>
+
+<p>
+⭐ ${r.points} балів
+</p>
+
+<p class="muted">
+📅 ${r.date}
+</p>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+STATISTICS
+========================= */
+
+function renderStats(){
+
+let tasks =
+database.quests.reduce(
+(sum,q)=>sum+q.tasks.length,
+0
+);
+
+
+let points =
+database.quests
+.flatMap(q=>q.tasks)
+.reduce(
+(sum,t)=>sum+Number(t.points||0),
+0
+);
+
+
+document
+.getElementById("statQuests")
+.innerText =
+database.quests.length;
+
+
+document
+.getElementById("statTasks")
+.innerText =
+tasks;
+
+
+document
+.getElementById("statPoints")
+.innerText =
+points;
+
+
+document
+.getElementById("statNotices")
+.innerText =
+database.notices.length;
+
+}
+
+
+/* =========================
+TIMER
+========================= */
+
+let timerSeconds=600;
+let timerInterval=null;
+
+
+function updateTimer(){
+
+let minutes =
+Math.floor(
+timerSeconds/60
+);
+
+let seconds =
+timerSeconds%60;
+
+
+document
+.getElementById("timerDisplay")
+.innerText =
+String(minutes).padStart(2,"0")
++
+":"
++
+String(seconds).padStart(2,"0");
+
+
+if(timerSeconds<=0){
+
+clearInterval(timerInterval);
+
+timerInterval=null;
+
+alert("⏰ Час вийшов!");
+
+}
+
+}
+
+
+function startTimer(){
+
+let input =
+Number(
+document
+.getElementById("timerMinutes")
+.value
+);
+
+
+if(input>0){
+
+timerSeconds=input*60;
+
+}
+
+
+clearInterval(timerInterval);
+
+
+timerInterval =
+setInterval(
+()=>{
+timerSeconds--;
+updateTimer();
+},
+1000
+);
+
+
+updateTimer();
+
+}
+
+
+function pauseTimer(){
+
+clearInterval(timerInterval);
+
+timerInterval=null;
+
+}
+
+
+function resetTimer(){
+
+clearInterval(timerInterval);
+
+timerInterval=null;
+
+timerSeconds=600;
+
+updateTimer();
+
+}
+
+
+/* =========================
+RANDOM TASK
+========================= */
+
+function randomTask(){
+
+let tasks =
+database.quests
+.flatMap(
+q=>q.tasks.map(
+t=>({
+...t,
+quest:q.name
+})
+)
+);
+
+
+let box =
+document
+.getElementById("randomResult");
+
+
+if(tasks.length===0){
+
+box.innerHTML=
+"❌ Завдань ще немає.";
+
+return;
+
+}
+
+
+let task =
+tasks[
+Math.floor(
+Math.random()*tasks.length
+)
+];
+
+
+box.innerHTML=
+`
+<h3>🎲 Випало завдання!</h3>
+
+<p>
+🎮 Квест:
+<b>${escapeHTML(task.quest)}</b>
+</p>
+
+<p>
+🧩 ${escapeHTML(task.title)}
+</p>
+
+<p>
+⭐ ${task.points} балів
+</p>
+`;
+
+}
+
+
+/* =========================
+NOTICES
+========================= */
+
+function addNotice(){
+
+let text =
+document
+.getElementById("noticeText")
+.value
+.trim();
+
+
+if(!text){
+
+alert("Напиши текст оголошення.");
+
+return;
+
+}
+
+
+database.notices.unshift({
+
+id:Date.now(),
+
+text:text,
+
+date:
+new Date().toLocaleString("uk-UA")
+
+});
+
+
+saveDatabase();
+
+document
+.getElementById("noticeText")
+.value="";
+
+renderAll();
+
+}
+
+
+function renderNotices(){
+
+let box =
+document
+.getElementById("noticesList");
+
+
+if(database.notices.length===0){
+
+box.innerHTML=
+`
+<p class="muted">
+Оголошень немає.
+</p>
+`;
+
+return;
+
+}
+
+
+box.innerHTML =
+database.notices
+.map((n,index)=>`
+
+<div class="notice">
+
+<b>📢 Оголошення</b>
+
+<p>
+${escapeHTML(n.text)}
+</p>
+
+<span class="small muted">
+${n.date}
+</span>
+
+<button
+class="danger"
+onclick="deleteNotice(${index})">
+🗑️ Видалити
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+function deleteNotice(index){
+
+database.notices.splice(
+index,
+1
+);
+
+saveDatabase();
+
+renderAll();
+
+}
+
+
+/* =========================
+SETTINGS
+========================= */
+
+function loadSettings(){
+
+document
+.getElementById("systemName")
+.value =
+settings.name;
+
+}
+
+
+function saveSettings(){
+
+let name =
+document
+.getElementById("systemName")
+.value
+.trim();
+
+
+if(name){
+
+settings.name=name;
+
+saveSettingsData();
+
+document.title =
+name+" Admin";
+
+alert("✅ Налаштування збережено.");
+
+}
+
+}
+
+
+function changePassword(){
+
+let password =
+document
+.getElementById("newPassword")
+.value
+.trim();
+
+
+if(password.length<4){
+
+alert(
+"Пароль має містити хоча б 4 символи."
+);
+
+return;
+
+}
+
+
+settings.password=password;
+
+saveSettingsData();
+
+document
+.getElementById("newPassword")
+.value="";
+
+
+alert("🔐 Пароль змінено.");
+
+}
+
+
+/* =========================
+EXPORT
+========================= */
+
+function exportData(){
+
+let data={
+database:database,
+settings:settings
+};
+
+
+let blob =
+new Blob(
+[
+JSON.stringify(
+data,
+null,
+2
+)
+],
+{
+type:"application/json"
+}
+);
+
+
+let url =
+URL.createObjectURL(blob);
+
+
+let a =
+document.createElement("a");
+
+
+a.href=url;
+
+a.download=
+"questhub_backup.json";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================
+IMPORT
+========================= */
+
+function importData(){
+
+document
+.getElementById("importFile")
+.click();
+
+}
+
+
+function handleImport(event){
+
+let file =
+event.target.files[0];
+
+
+if(!file)
+return;
+
+
+let reader =
+new FileReader();
+
+
+reader.onload=function(){
+
+try{
+
+let data =
+JSON.parse(
+reader.result
+);
+
+
+if(data.database){
+
+database=data.database;
+
+saveDatabase();
+
+}
+
+
+if(data.settings){
+
+settings=data.settings;
+
+saveSettingsData();
+
+}
+
+
+renderAll();
+
+alert(
+"✅ Дані успішно імпортовано!"
+);
+
+
+}catch{
+
+alert(
+"❌ Файл пошкоджений або неправильний."
+);
+
+}
+
+};
+
+
+reader.readAsText(file);
+
+}
+
+
+/* =========================
+CLEAR DATABASE
+========================= */
+
+function clearDatabase(){
+
+if(
+!confirm(
+"⚠️ Точно видалити ВСІ дані QuestHub?"
+)
+)
+return;
+
+
+if(
+!confirm(
+"Цю дію не можна буде скасувати. Продовжити?"
+)
+)
+return;
+
+
+database={
+quests:[],
+notices:[],
+results:[]
+};
+
+
+saveDatabase();
+
+renderAll();
+
+}
+
+
+/* =========================
+ESCAPE HTML
+========================= */
+
+function escapeHTML(text){
+
+return String(text)
+
+.replaceAll("&","&amp;")
+
+.replaceAll("<","&lt;")
+
+.replaceAll(">","&gt;")
+
+.replaceAll('"',"&quot;")
+
+.replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+RENDER ALL
+========================= */
+
+function renderAll(){
+
+renderQuests();
+
+renderResults();
+
+renderNotices();
+
+renderStats();
+
+loadSettings();
+
+updateTimer();
+
+}
+
+
+/* =========================
+ENTER KEY LOGIN
+========================= */
+
+document
+.getElementById("adminPassword")
+.addEventListener(
+"keydown",
+function(event){
+
+if(event.key==="Enter"){
+
+loginAdmin();
+
+}
+
+});
+
+
+/* =========================
+START
+========================= */
+
+updateTimer();
+
+</script>
+
+</body>
+</html>
