@@ -1,1 +1,779 @@
-оов
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Football Referee System</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #101318;
+    color: white;
+}
+
+header {
+    background: #171c23;
+    padding: 18px;
+    text-align: center;
+    border-bottom: 2px solid #2b333d;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: #171c23;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.25);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #39424d;
+    background: #222932;
+    color: white;
+    font-size: 16px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: #238636;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: .85;
+}
+
+.danger {
+    background: #d1242f;
+}
+
+.yellow {
+    background: #d6a800;
+    color: black;
+}
+
+.red {
+    background: #c62828;
+}
+
+.blue {
+    background: #1769aa;
+}
+
+.gray {
+    background: #3b434d;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.score {
+    font-size: 60px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.timer {
+    font-size: 55px;
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.teams-score {
+    display: grid;
+    grid-template-columns: 1fr 150px 1fr;
+    align-items: center;
+    text-align: center;
+}
+
+.team-name {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.players {
+    display: grid;
+    gap: 10px;
+}
+
+.player {
+    background: #222932;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.player strong {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.actions button {
+    margin: 0;
+    padding: 9px 5px;
+    font-size: 13px;
+}
+
+.event {
+    padding: 10px;
+    background: #222932;
+    border-radius: 8px;
+    margin-bottom: 7px;
+}
+
+.hidden {
+    display: none;
+}
+
+@media(max-width:700px) {
+    .team-grid,
+    .teams-score {
+        grid-template-columns: 1fr;
+    }
+
+    .teams-score > div {
+        margin: 10px;
+    }
+
+    .actions {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .timer {
+        font-size: 42px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>⚽ FOOTBALL REFEREE SYSTEM</h1>
+    <p>Суддівська система матчу</p>
+</header>
+
+<div class="container">
+
+<!-- НАЛАШТУВАННЯ -->
+<div class="card" id="setup">
+
+    <h2>⚙️ Налаштування матчу</h2>
+
+    <div class="team-grid">
+
+        <div>
+            <h3>🏠 Команда 1</h3>
+            <input id="team1Name" placeholder="Назва команди">
+            <input id="team1Players" placeholder="Гравці через кому">
+        </div>
+
+        <div>
+            <h3>✈️ Команда 2</h3>
+            <input id="team2Name" placeholder="Назва команди">
+            <input id="team2Players" placeholder="Гравці через кому">
+        </div>
+
+    </div>
+
+    <h3>⏱️ Тривалість тайму</h3>
+
+    <select id="halfTime">
+        <option value="5">5 хвилин</option>
+        <option value="10">10 хвилин</option>
+        <option value="15">15 хвилин</option>
+        <option value="20">20 хвилин</option>
+        <option value="25">25 хвилин</option>
+        <option value="30">30 хвилин</option>
+        <option value="35">35 хвилин</option>
+        <option value="40">40 хвилин</option>
+        <option value="45" selected>45 хвилин</option>
+    </select>
+
+    <button onclick="startMatch()">▶️ ПОЧАТИ МАТЧ</button>
+
+</div>
+
+
+<!-- МАТЧ -->
+<div class="hidden" id="match">
+
+    <div class="card">
+
+        <div class="teams-score">
+
+            <div>
+                <div class="team-name" id="displayTeam1"></div>
+                <div class="score" id="score1">0</div>
+            </div>
+
+            <div>
+                <div class="timer" id="timer">45:00</div>
+                <button class="gray" onclick="pauseTimer()" id="pauseButton">
+                    ⏸️ Пауза
+                </button>
+            </div>
+
+            <div>
+                <div class="team-name" id="displayTeam2"></div>
+                <div class="score" id="score2">0</div>
+            </div>
+
+        </div>
+
+        <button class="blue" onclick="nextHalf()">
+            🔄 НАСТУПНИЙ ТАЙМ
+        </button>
+
+        <button class="danger" onclick="finishMatch()">
+            🏁 ЗАВЕРШИТИ МАТЧ
+        </button>
+
+    </div>
+
+
+    <!-- ГРАВЦІ -->
+    <div class="card">
+
+        <h2>👥 Гравці</h2>
+
+        <div class="team-grid">
+
+            <div>
+                <h3 id="playersTitle1"></h3>
+                <div id="players1" class="players"></div>
+            </div>
+
+            <div>
+                <h3 id="playersTitle2"></h3>
+                <div id="players2" class="players"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ПРОТОКОЛ -->
+    <div class="card">
+
+        <h2>📋 Протокол матчу</h2>
+
+        <div id="events">
+            <p>Подій поки немає.</p>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let matchStarted = false;
+let paused = false;
+
+let currentHalf = 1;
+
+let halfDuration = 45 * 60;
+let timeLeft = 45 * 60;
+
+let timerInterval = null;
+
+let score = {
+    team1: 0,
+    team2: 0
+};
+
+let teams = {
+    team1: {
+        name: "",
+        players: []
+    },
+    team2: {
+        name: "",
+        players: []
+    }
+};
+
+let events = [];
+
+
+/* =========================
+   ПОЧАТОК МАТЧУ
+========================= */
+
+function startMatch() {
+
+    teams.team1.name =
+        document.getElementById("team1Name").value.trim() || "Команда 1";
+
+    teams.team2.name =
+        document.getElementById("team2Name").value.trim() || "Команда 2";
+
+    teams.team1.players =
+        getPlayers("team1Players");
+
+    teams.team2.players =
+        getPlayers("team2Players");
+
+    halfDuration =
+        Number(document.getElementById("halfTime").value) * 60;
+
+    timeLeft = halfDuration;
+
+    document.getElementById("setup").classList.add("hidden");
+    document.getElementById("match").classList.remove("hidden");
+
+    document.getElementById("displayTeam1").textContent =
+        teams.team1.name;
+
+    document.getElementById("displayTeam2").textContent =
+        teams.team2.name;
+
+    document.getElementById("playersTitle1").textContent =
+        teams.team1.name;
+
+    document.getElementById("playersTitle2").textContent =
+        teams.team2.name;
+
+    renderPlayers();
+
+    matchStarted = true;
+
+    updateTimer();
+
+    startTimer();
+
+    addEvent("🏟️ Матч розпочато");
+}
+
+
+/* =========================
+   ОТРИМАТИ ГРАВЦІВ
+========================= */
+
+function getPlayers(id) {
+
+    const text =
+        document.getElementById(id).value;
+
+    if (!text.trim()) {
+        return [];
+    }
+
+    return text
+        .split(",")
+        .map(name => ({
+            name: name.trim(),
+            yellow: 0,
+            red: 0,
+            fouls: 0,
+            goals: 0,
+            active: true
+        }))
+        .filter(player => player.name !== "");
+}
+
+
+/* =========================
+   ТАЙМЕР
+========================= */
+
+function startTimer() {
+
+    clearInterval(timerInterval);
+
+    timerInterval = setInterval(() => {
+
+        if (!paused && matchStarted) {
+
+            timeLeft--;
+
+            updateTimer();
+
+            if (timeLeft <= 0) {
+
+                clearInterval(timerInterval);
+
+                addEvent(
+                    `⏱️ Час ${currentHalf}-го тайму закінчився`
+                );
+
+                alert(
+                    `Час ${currentHalf}-го тайму закінчився!`
+                );
+            }
+        }
+
+    }, 1000);
+}
+
+
+function updateTimer() {
+
+    let minutes =
+        Math.floor(timeLeft / 60);
+
+    let seconds =
+        timeLeft % 60;
+
+    document.getElementById("timer").textContent =
+        String(minutes).padStart(2, "0")
+        + ":"
+        + String(seconds).padStart(2, "0");
+}
+
+
+function pauseTimer() {
+
+    paused = !paused;
+
+    document.getElementById("pauseButton").textContent =
+        paused ? "▶️ Продовжити" : "⏸️ Пауза";
+}
+
+
+/* =========================
+   НАСТУПНИЙ ТАЙМ
+========================= */
+
+function nextHalf() {
+
+    if (currentHalf >= 2) {
+
+        alert("Це вже другий тайм.");
+
+        return;
+    }
+
+    currentHalf++;
+
+    timeLeft = halfDuration;
+
+    paused = false;
+
+    updateTimer();
+
+    startTimer();
+
+    document.getElementById("pauseButton").textContent =
+        "⏸️ Пауза";
+
+    addEvent(
+        `🔄 Розпочато ${currentHalf}-й тайм`
+    );
+}
+
+
+/* =========================
+   ГРАВЦІ
+========================= */
+
+function renderPlayers() {
+
+    renderTeamPlayers("team1", "players1");
+    renderTeamPlayers("team2", "players2");
+}
+
+
+function renderTeamPlayers(teamKey, elementId) {
+
+    const container =
+        document.getElementById(elementId);
+
+    container.innerHTML = "";
+
+    teams[teamKey].players.forEach((player, index) => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "player";
+
+        div.innerHTML = `
+
+            <strong>
+                ${index + 1}. ${escapeHtml(player.name)}
+                ${player.active ? " 🟢" : " 🔴"}
+            </strong>
+
+            <div>
+                🟨 ${player.yellow}
+                &nbsp;&nbsp;
+                🟥 ${player.red}
+                &nbsp;&nbsp;
+                ⚽ ${player.goals}
+                &nbsp;&nbsp;
+                🚩 ${player.fouls}
+            </div>
+
+            <div class="actions">
+
+                <button
+                    class="yellow"
+                    onclick="yellowCard('${teamKey}', ${index})">
+                    🟨 Картка
+                </button>
+
+                <button
+                    class="red"
+                    onclick="redCard('${teamKey}', ${index})">
+                    🟥 Картка
+                </button>
+
+                <button
+                    onclick="goal('${teamKey}', ${index})">
+                    ⚽ Гол
+                </button>
+
+                <button
+                    class="gray"
+                    onclick="foul('${teamKey}', ${index})">
+                    🚩 Фол
+                </button>
+
+            </div>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+
+/* =========================
+   ЖОВТА КАРТКА
+========================= */
+
+function yellowCard(teamKey, playerIndex) {
+
+    const player =
+        teams[teamKey].players[playerIndex];
+
+    if (!player.active) return;
+
+    player.yellow++;
+
+    if (player.yellow >= 2) {
+
+        player.red++;
+
+        player.active = false;
+
+        addEvent(
+            `🟥 ${teams[teamKey].name}: ${player.name} — друга жовта → червона картка`
+        );
+
+        alert(
+            `${player.name} отримав другу жовту картку і вилучений!`
+        );
+
+    } else {
+
+        addEvent(
+            `🟨 ${teams[teamKey].name}: ${player.name} — жовта картка`
+        );
+    }
+
+    renderPlayers();
+}
+
+
+/* =========================
+   ЧЕРВОНА КАРТКА
+========================= */
+
+function redCard(teamKey, playerIndex) {
+
+    const player =
+        teams[teamKey].players[playerIndex];
+
+    if (!player.active) return;
+
+    player.red++;
+
+    player.active = false;
+
+    addEvent(
+        `🟥 ${teams[teamKey].name}: ${player.name} — червона картка, вилучення`
+    );
+
+    renderPlayers();
+}
+
+
+/* =========================
+   ГОЛ
+========================= */
+
+function goal(teamKey, playerIndex) {
+
+    const player =
+        teams[teamKey].players[playerIndex];
+
+    if (!player.active) {
+
+        alert("Цей гравець вилучений.");
+
+        return;
+    }
+
+    player.goals++;
+
+    score[teamKey]++;
+
+    document.getElementById(
+        teamKey === "team1" ? "score1" : "score2"
+    ).textContent = score[teamKey];
+
+    addEvent(
+        `⚽ ГОЛ! ${teams[teamKey].name} — ${player.name}`
+    );
+
+    renderPlayers();
+}
+
+
+/* =========================
+   ФОЛ
+========================= */
+
+function foul(teamKey, playerIndex) {
+
+    const player =
+        teams[teamKey].players[playerIndex];
+
+    if (!player.active) return;
+
+    player.fouls++;
+
+    addEvent(
+        `🚩 Фол: ${teams[teamKey].name} — ${player.name}`
+    );
+
+    renderPlayers();
+}
+
+
+/* =========================
+   ПРОТОКОЛ
+========================= */
+
+function addEvent(text) {
+
+    const now =
+        new Date();
+
+    const time =
+        now.toLocaleTimeString("uk-UA", {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+    events.unshift({
+        text: text,
+        time: time
+    });
+
+    renderEvents();
+}
+
+
+function renderEvents() {
+
+    const container =
+        document.getElementById("events");
+
+    container.innerHTML = "";
+
+    events.forEach(event => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "event";
+
+        div.innerHTML =
+            `<strong>${event.time}</strong> — ${escapeHtml(event.text)}`;
+
+        container.appendChild(div);
+    });
+}
+
+
+/* =========================
+   ЗАВЕРШЕННЯ
+========================= */
+
+function finishMatch() {
+
+    const result =
+        `${teams.team1.name} ${score.team1} : ${score.team2} ${teams.team2.name}`;
+
+    addEvent(`🏁 Матч завершено — ${result}`);
+
+    clearInterval(timerInterval);
+
+    matchStarted = false;
+
+    alert(
+        `🏁 МАТЧ ЗАВЕРШЕНО\n\n${result}`
+    );
+}
+
+
+/* =========================
+   ЗАХИСТ ТЕКСТУ
+========================= */
+
+function escapeHtml(text) {
+
+    return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+
+</script>
+
+</body>
+</html>
