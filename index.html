@@ -4,262 +4,447 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>QuestHub</title>
+<title>HOME AIRPORT — Ticket Generator</title>
 
 <style>
-
 *{
-box-sizing:border-box;
+    box-sizing:border-box;
 }
 
 body{
-margin:0;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-background:#0b1220;
-color:white;
+    margin:0;
+    background:#eef1f7;
+    font-family:Arial, sans-serif;
+    color:#111;
 }
 
 .container{
-max-width:900px;
-margin:auto;
-padding:20px;
+    max-width:900px;
+    margin:auto;
+    padding:18px;
+}
+
+.panel{
+    background:white;
+    padding:20px;
+    border-radius:18px;
+    margin-bottom:20px;
+    box-shadow:0 5px 25px #0002;
 }
 
 h1{
-font-size:32px;
+    margin-top:0;
 }
 
-.card{
-background:#151f31;
-border:1px solid #293750;
-border-radius:18px;
-padding:20px;
-margin:15px 0;
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
 }
 
-button,
-input,
-textarea{
-width:100%;
-padding:13px;
-margin-top:8px;
-border-radius:12px;
-font-size:16px;
+label{
+    font-weight:bold;
+    font-size:14px;
 }
 
-input,
-textarea{
-background:#0d1625;
-border:1px solid #3b4a65;
-color:white;
-}
-
-textarea{
-min-height:90px;
+input{
+    width:100%;
+    margin-top:5px;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:10px;
+    font-size:16px;
 }
 
 button{
-background:#3867ff;
-color:white;
-border:0;
-font-weight:bold;
-cursor:pointer;
+    margin-top:16px;
+    padding:13px 20px;
+    border:0;
+    border-radius:10px;
+    background:#1515aa;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.secondary{
-background:#293750;
+button.print{
+    background:#e6e6ed;
+    color:#111;
+    margin-left:8px;
 }
 
-.danger{
-background:#b9364b;
+
+/* КВИТОК */
+
+.ticket{
+    background:white;
+    max-width:850px;
+    margin:auto;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 8px 30px #0002;
 }
 
-.hidden{
-display:none;
+.top{
+    padding:22px 28px;
 }
 
-.player{
-background:#101a2a;
-padding:14px;
-border-radius:14px;
-margin-top:10px;
+.airportTitle{
+    font-size:24px;
+    font-weight:bold;
 }
 
-.tag{
-display:inline-block;
-background:#263653;
-padding:5px 9px;
-border-radius:20px;
-margin:3px;
+.route{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-top:25px;
 }
 
-.good{
-color:#6ee7a0;
+.airport{
+    font-size:65px;
+    font-weight:bold;
 }
 
-.bad{
-color:#ff8795;
+.line{
+    flex:1;
+    height:4px;
+    background:#888;
+    position:relative;
 }
 
-.tabs{
-display:flex;
-gap:8px;
+.line::after{
+    content:"✈";
+    position:absolute;
+    left:50%;
+    top:-25px;
+    transform:translateX(-50%);
+    font-size:35px;
 }
 
+.small{
+    color:#777;
+    font-size:17px;
+    margin-top:6px;
+}
+
+.passenger{
+    font-size:27px;
+    font-weight:bold;
+    margin-top:25px;
+}
+
+.flight{
+    color:#777;
+    font-size:18px;
+    margin-top:5px;
+}
+
+.blue{
+    background:#1515aa;
+    color:white;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    text-align:center;
+    padding:15px;
+}
+
+.blue small{
+    font-size:13px;
+}
+
+.blue strong{
+    display:block;
+    font-size:30px;
+    margin-top:4px;
+}
+
+.info{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr 1fr;
+    gap:15px;
+    padding:22px 28px;
+}
+
+.info b{
+    display:block;
+    color:#777;
+    font-size:13px;
+}
+
+.info span{
+    display:block;
+    font-size:21px;
+    font-weight:bold;
+    margin-top:4px;
+}
+
+.barcode{
+    padding:10px 28px 25px;
+    text-align:center;
+}
+
+.barcode img{
+    width:100%;
+    max-width:700px;
+    height:110px;
+    object-fit:contain;
+}
+
+.barcodeText{
+    font-family:monospace;
+    font-size:14px;
+    margin-top:5px;
+}
+
+.footer{
+    text-align:center;
+    color:#777;
+    font-size:13px;
+    padding:0 20px 20px;
+}
+
+@media(max-width:650px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .airport{
+        font-size:48px;
+    }
+
+    .info{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .top{
+        padding:18px;
+    }
+
+    .info{
+        padding:18px;
+    }
+
+    .barcode{
+        padding-left:18px;
+        padding-right:18px;
+    }
+}
+
+
+/* ДРУК */
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    .panel{
+        display:none;
+    }
+
+    .container{
+        padding:0;
+    }
+
+    .ticket{
+        box-shadow:none;
+        max-width:none;
+    }
+}
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
-<h1>🎯 QuestHub</h1>
+<!-- ПАНЕЛЬ -->
 
-<p>
-Система домашніх квестів
-</p>
+<div class="panel">
 
+<h1>✈️ HOME AIRPORT</h1>
 
-<!-- ГОЛОВНИЙ ЕКРАН -->
+<div class="grid">
 
-<div id="home" class="card">
+<label>
+Ім'я та прізвище
+<input id="name" value="SEBASTIAN FUTYMA">
+</label>
 
-<h2>Вхід</h2>
+<label>
+Рейс
+<input id="flight" value="W62449">
+</label>
 
-<button onclick="openPlayer()">
-👤 Я гравець
+<label>
+Звідки
+<input id="from" value="KIV">
+</label>
+
+<label>
+Куди
+<input id="to" value="NRV">
+</label>
+
+<label>
+Дата
+<input id="date" value="19 AUG">
+</label>
+
+<label>
+Виліт
+<input id="departure" value="14:40">
+</label>
+
+<label>
+Gate closes
+<input id="gateClose" value="14:35">
+</label>
+
+<label>
+Gate
+<input id="gate" value="07">
+</label>
+
+<label>
+Seat
+<input id="seat" value="19A">
+</label>
+
+<label>
+Class
+<input id="class" value="ECONOMY">
+</label>
+
+<label>
+Baggage
+<input id="baggage" value="1">
+</label>
+
+</div>
+
+<button onclick="createTicket()">
+🎫 Створити квиток
 </button>
 
-<button class="secondary" onclick="openAdmin()">
-🛠️ Я адмін
+<button class="print" onclick="window.print()">
+🖨️ Друкувати
 </button>
 
 </div>
 
 
-<!-- ГРАВЕЦЬ -->
+<!-- КВИТОК -->
 
-<div id="playerScreen" class="hidden">
+<div class="ticket">
 
-<button class="secondary" onclick="goHome()">
-← Назад
-</button>
+<div class="top">
 
-<div class="card">
-
-<h2>👤 Кабінет гравця</h2>
-
-<input
-id="playerCode"
-placeholder="Код гравця, наприклад P001"
->
-
-<button onclick="loginPlayer()">
-Увійти
-</button>
-
-<div id="playerInfo"></div>
-
-</div>
-
-<div id="playerQuest"></div>
-
+<div class="airportTitle">
+✈️ HOME AIRPORT
 </div>
 
 
-<!-- АДМІН -->
+<div class="route">
 
-<div id="adminScreen" class="hidden">
+<div>
+<div class="airport" id="outFrom">KIV</div>
+<div class="small">DEPARTURE</div>
+</div>
 
-<button class="secondary" onclick="goHome()">
-← Вихід
-</button>
+<div class="line"></div>
 
-
-<div class="tabs">
-
-<button onclick="showAdmin('players')">
-👥 Гравці
-</button>
-
-<button onclick="showAdmin('quests')">
-🎮 Квести
-</button>
-
-<button onclick="showAdmin('results')">
-🏆 Результати
-</button>
+<div>
+<div class="airport" id="outTo">NRV</div>
+<div class="small">ARRIVAL</div>
+</div>
 
 </div>
 
 
-<!-- ГРАВЦІ -->
+<div class="passenger" id="outName">
+SEBASTIAN FUTYMA
+</div>
 
-<div id="playersTab" class="card">
-
-<h2>👥 Гравці</h2>
-
-<input
-id="playerName"
-placeholder="Ім'я"
->
-
-<input
-id="playerSurname"
-placeholder="Прізвище"
->
-
-<input
-id="playerAge"
-placeholder="Вік"
->
-
-<input
-id="playerTeam"
-placeholder="Команда"
->
-
-<button onclick="addPlayer()">
-➕ Додати гравця
-</button>
-
-<div id="playersList"></div>
+<div class="flight" id="outFlight">
+FLIGHT W62449
+</div>
 
 </div>
 
 
-<!-- КВЕСТИ -->
+<!-- СИНЯ ПАНЕЛЬ -->
 
-<div id="questsTab" class="card hidden">
+<div class="blue">
 
-<h2>🎮 Квести</h2>
+<div>
+<small>GATE CLOSES</small>
+<strong id="outClose">14:35</strong>
+</div>
 
-<input
-id="questName"
-placeholder="Назва квесту"
->
+<div>
+<small>GATE</small>
+<strong id="outGate">07</strong>
+</div>
 
-<textarea
-id="questDescription"
-placeholder="Опис квесту">
-</textarea>
-
-<button onclick="createQuest()">
-➕ Створити квест
-</button>
-
-<div id="questsList"></div>
+<div>
+<small>DEPARTURE</small>
+<strong id="outDeparture">14:40</strong>
+</div>
 
 </div>
 
 
-<!-- РЕЗУЛЬТАТИ -->
+<!-- ІНФО -->
 
-<div id="resultsTab" class="card hidden">
+<div class="info">
 
-<h2>🏆 Рейтинг</h2>
+<div>
+<b>DATE</b>
+<span id="outDate">19 AUG</span>
+</div>
 
-<div id="resultsList"></div>
+<div>
+<b>SEAT</b>
+<span id="outSeat">19A</span>
+</div>
+
+<div>
+<b>PNR</b>
+<span id="outPNR">ABC123</span>
+</div>
+
+<div>
+<b>SEQUENCE</b>
+<span id="outSequence">0013</span>
+</div>
+
+</div>
+
+
+<!-- ШТРИХКОД -->
+
+<div class="barcode">
+
+<img id="barcode">
+
+<div class="barcodeText" id="barcodeText">
+W62449/ABC123/0013
+</div>
+
+</div>
+
+
+<div class="footer">
+
+PLEASE PRESENT THIS BOARDING PASS AT THE GATE
+<br>
+BAGGAGE: <span id="outBaggage">1</span>
 
 </div>
 
@@ -270,1005 +455,160 @@ placeholder="Опис квесту">
 
 <script>
 
-/* =========================
-БАЗА
-========================= */
+/* Генерація PNR */
 
-let database =
-JSON.parse(
-localStorage.getItem("questhub_database")
-)
-||
-{
-players:[],
-quests:[]
-};
+function generatePNR(){
 
+    let chars =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-function saveDatabase(){
+    let result = "";
 
-localStorage.setItem(
-"questhub_database",
-JSON.stringify(database)
-);
+    for(let i=0;i<6;i++){
 
+        result +=
+        chars[Math.floor(Math.random()*chars.length)];
+
+    }
+
+    return result;
 }
 
 
-/* =========================
-НАВІГАЦІЯ
-========================= */
+/* Sequence */
 
-function hideAll(){
+let sequence = 13;
 
-document
-.querySelectorAll(".container > div")
-.forEach(
-x=>x.classList.add("hidden")
-);
 
+/* Створення квитка */
+
+function createTicket(){
+
+    let name =
+    document.getElementById("name").value;
+
+    let flight =
+    document.getElementById("flight").value;
+
+    let from =
+    document.getElementById("from").value;
+
+    let to =
+    document.getElementById("to").value;
+
+    let date =
+    document.getElementById("date").value;
+
+    let departure =
+    document.getElementById("departure").value;
+
+    let gateClose =
+    document.getElementById("gateClose").value;
+
+    let gate =
+    document.getElementById("gate").value;
+
+    let seat =
+    document.getElementById("seat").value;
+
+    let baggage =
+    document.getElementById("baggage").value;
+
+
+    let pnr = generatePNR();
+
+    let seq =
+    String(sequence).padStart(4,"0");
+
+    sequence++;
+
+
+    document.getElementById("outName")
+    .textContent =
+    name.toUpperCase();
+
+    document.getElementById("outFlight")
+    .textContent =
+    "FLIGHT " + flight.toUpperCase();
+
+    document.getElementById("outFrom")
+    .textContent =
+    from.toUpperCase();
+
+    document.getElementById("outTo")
+    .textContent =
+    to.toUpperCase();
+
+    document.getElementById("outDate")
+    .textContent =
+    date.toUpperCase();
+
+    document.getElementById("outDeparture")
+    .textContent =
+    departure;
+
+    document.getElementById("outClose")
+    .textContent =
+    gateClose;
+
+    document.getElementById("outGate")
+    .textContent =
+    gate;
+
+    document.getElementById("outSeat")
+    .textContent =
+    seat.toUpperCase();
+
+    document.getElementById("outPNR")
+    .textContent =
+    pnr;
+
+    document.getElementById("outSequence")
+    .textContent =
+    seq;
+
+    document.getElementById("outBaggage")
+    .textContent =
+    baggage;
+
+
+    /*
+       Дані квитка
+    */
+
+    let barcodeData =
+    flight.toUpperCase()
+    + from.toUpperCase()
+    + to.toUpperCase()
+    + pnr
+    + seq;
+
+
+    /*
+       Штрихкод через онлайн-генератор
+    */
+
+    let barcodeURL =
+    "https://barcode.tec-it.com/barcode.ashx"
+    + "?data="
+    + encodeURIComponent(barcodeData)
+    + "&code=Code128"
+    + "&translate-esc=on";
+
+
+    document.getElementById("barcode").src =
+    barcodeURL;
+
+
+    document.getElementById("barcodeText")
+    .textContent =
+    barcodeData;
 }
 
 
-function goHome(){
+/* Перший квиток */
 
-hideAll();
-
-document
-.getElementById("home")
-.classList.remove("hidden");
-
-}
-
-
-function openPlayer(){
-
-hideAll();
-
-document
-.getElementById("playerScreen")
-.classList.remove("hidden");
-
-}
-
-
-/* =========================
-АДМІН
-ПАРОЛЬ: 2016
-========================= */
-
-function openAdmin(){
-
-let password =
-prompt(
-"Введи пароль адміністратора:"
-);
-
-
-if(password !== "2016"){
-
-alert(
-"❌ Неправильний пароль"
-);
-
-return;
-
-}
-
-
-hideAll();
-
-
-document
-.getElementById("adminScreen")
-.classList.remove("hidden");
-
-
-renderPlayers();
-
-renderQuests();
-
-renderResults();
-
-}
-
-
-/* =========================
-АДМІН МЕНЮ
-========================= */
-
-function showAdmin(tab){
-
-document
-.getElementById("playersTab")
-.classList.add("hidden");
-
-document
-.getElementById("questsTab")
-.classList.add("hidden");
-
-document
-.getElementById("resultsTab")
-.classList.add("hidden");
-
-
-if(tab==="players"){
-
-document
-.getElementById("playersTab")
-.classList.remove("hidden");
-
-}
-
-
-if(tab==="quests"){
-
-document
-.getElementById("questsTab")
-.classList.remove("hidden");
-
-}
-
-
-if(tab==="results"){
-
-document
-.getElementById("resultsTab")
-.classList.remove("hidden");
-
-}
-
-}
-
-
-/* =========================
-ДОДАВАННЯ ГРАВЦЯ
-========================= */
-
-function addPlayer(){
-
-let name =
-document
-.getElementById("playerName")
-.value.trim();
-
-
-let surname =
-document
-.getElementById("playerSurname")
-.value.trim();
-
-
-let age =
-document
-.getElementById("playerAge")
-.value.trim();
-
-
-let team =
-document
-.getElementById("playerTeam")
-.value.trim();
-
-
-if(!name || !surname){
-
-alert(
-"Введи ім'я та прізвище"
-);
-
-return;
-
-}
-
-
-let number =
-database.players.length + 1;
-
-
-let code =
-"P" +
-String(number)
-.padStart(3,"0");
-
-
-while(
-database.players.some(
-p=>p.code===code
-)
-){
-
-number++;
-
-code =
-"P" +
-String(number)
-.padStart(3,"0");
-
-}
-
-
-database.players.push({
-
-id:Date.now(),
-
-code:code,
-
-name:name,
-
-surname:surname,
-
-age:age,
-
-team:team,
-
-points:0,
-
-completed:[]
-
-});
-
-
-saveDatabase();
-
-renderPlayers();
-
-renderResults();
-
-
-document.getElementById(
-"playerName"
-).value="";
-
-
-document.getElementById(
-"playerSurname"
-).value="";
-
-
-document.getElementById(
-"playerAge"
-).value="";
-
-
-document.getElementById(
-"playerTeam"
-).value="";
-
-
-alert(
-"✅ Гравця додано!\n\nКод гравця: "
-+
-code
-);
-
-}
-
-
-/* =========================
-СПИСОК ГРАВЦІВ
-========================= */
-
-function renderPlayers(){
-
-let box =
-document.getElementById(
-"playersList"
-);
-
-
-if(database.players.length===0){
-
-box.innerHTML =
-"<p>Гравців ще немає.</p>";
-
-return;
-
-}
-
-
-box.innerHTML =
-database.players.map(
-(p,index)=>`
-
-<div class="player">
-
-<b>
-${escapeHTML(p.name)}
-${escapeHTML(p.surname)}
-</b>
-
-<span class="tag">
-${p.code}
-</span>
-
-<br><br>
-
-Вік:
-${escapeHTML(p.age || "—")}
-
-<br>
-
-Команда:
-${escapeHTML(p.team || "—")}
-
-<br>
-
-⭐ ${p.points} балів
-
-<button
-class="danger"
-onclick="deletePlayer(${index})">
-
-Видалити
-
-</button>
-
-</div>
-
-`
-).join("");
-
-}
-
-
-function deletePlayer(index){
-
-if(
-confirm(
-"Видалити цього гравця?"
-)
-){
-
-database.players.splice(
-index,
-1
-);
-
-saveDatabase();
-
-renderPlayers();
-
-renderResults();
-
-}
-
-}
-
-
-/* =========================
-СТВОРЕННЯ КВЕСТУ
-========================= */
-
-function createQuest(){
-
-let name =
-document
-.getElementById("questName")
-.value.trim();
-
-
-let description =
-document
-.getElementById("questDescription")
-.value.trim();
-
-
-if(!name){
-
-alert(
-"Введи назву квесту"
-);
-
-return;
-
-}
-
-
-database.quests.push({
-
-id:Date.now(),
-
-name:name,
-
-description:description,
-
-tasks:[]
-
-});
-
-
-saveDatabase();
-
-renderQuests();
-
-
-document.getElementById(
-"questName"
-).value="";
-
-
-document.getElementById(
-"questDescription"
-).value="";
-
-}
-
-
-/* =========================
-СПИСОК КВЕСТІВ
-========================= */
-
-function renderQuests(){
-
-let box =
-document.getElementById(
-"questsList"
-);
-
-
-if(database.quests.length===0){
-
-box.innerHTML =
-"<p>Квестів ще немає.</p>";
-
-return;
-
-}
-
-
-box.innerHTML =
-database.quests.map(
-(q,index)=>`
-
-<div class="player">
-
-<h3>
-🎮 ${escapeHTML(q.name)}
-</h3>
-
-<p>
-${escapeHTML(q.description)}
-</p>
-
-<p>
-🧩 Завдань:
-${q.tasks.length}
-</p>
-
-<button
-onclick="addTask(${index})">
-
-➕ Додати завдання
-
-</button>
-
-
-${q.tasks.map(
-(task,taskIndex)=>`
-
-<div class="player">
-
-<b>
-🧩 ${taskIndex+1}.
-${escapeHTML(task.title)}
-</b>
-
-<br>
-
-⭐ ${task.points} балів
-
-<button
-class="danger"
-onclick="deleteTask(${index},${taskIndex})">
-
-Видалити завдання
-
-</button>
-
-</div>
-
-`
-).join("")}
-
-
-<button
-class="danger"
-onclick="deleteQuest(${index})">
-
-Видалити квест
-
-</button>
-
-</div>
-
-`
-).join("");
-
-}
-
-
-/* =========================
-ДОДАТИ ЗАВДАННЯ
-========================= */
-
-function addTask(questIndex){
-
-let title =
-prompt(
-"Назва завдання:"
-);
-
-
-if(!title)
-return;
-
-
-let answer =
-prompt(
-"Правильна відповідь:"
-);
-
-
-if(!answer)
-return;
-
-
-let points =
-Number(
-prompt(
-"Скільки балів?",
-"100"
-)
-);
-
-
-if(!points)
-points=100;
-
-
-database
-.quests[questIndex]
-.tasks
-.push({
-
-id:Date.now(),
-
-title:title,
-
-answer:
-answer
-.toLowerCase()
-.trim(),
-
-points:points
-
-});
-
-
-saveDatabase();
-
-renderQuests();
-
-}
-
-
-/* =========================
-ВИДАЛИТИ ЗАВДАННЯ
-========================= */
-
-function deleteTask(
-questIndex,
-taskIndex
-){
-
-database
-.quests[questIndex]
-.tasks
-.splice(
-taskIndex,
-1
-);
-
-
-saveDatabase();
-
-renderQuests();
-
-}
-
-
-/* =========================
-ВИДАЛИТИ КВЕСТ
-========================= */
-
-function deleteQuest(index){
-
-if(
-confirm(
-"Видалити цей квест?"
-)
-){
-
-database.quests.splice(
-index,
-1
-);
-
-saveDatabase();
-
-renderQuests();
-
-}
-
-}
-
-
-/* =========================
-ВХІД ГРАВЦЯ
-========================= */
-
-function loginPlayer(){
-
-let code =
-document
-.getElementById("playerCode")
-.value
-.trim()
-.toUpperCase();
-
-
-let player =
-database.players.find(
-p=>p.code===code
-);
-
-
-let info =
-document.getElementById(
-"playerInfo"
-);
-
-
-if(!player){
-
-info.innerHTML =
-`
-<p class="bad">
-❌ Гравця не знайдено.
-</p>
-`;
-
-return;
-
-}
-
-
-info.innerHTML = `
-
-<div class="player">
-
-<h3>
-👋 Привіт,
-${escapeHTML(player.name)}
-!
-</h3>
-
-Прізвище:
-${escapeHTML(player.surname)}
-
-<br>
-
-Команда:
-${escapeHTML(player.team || "—")}
-
-<br>
-
-⭐ Бали:
-${player.points}
-
-</div>
-
-`;
-
-
-renderPlayerQuest(player);
-
-}
-
-
-/* =========================
-КВЕСТ ГРАВЦЯ
-========================= */
-
-function renderPlayerQuest(player){
-
-let box =
-document.getElementById(
-"playerQuest"
-);
-
-
-if(database.quests.length===0){
-
-box.innerHTML = `
-
-<div class="card">
-
-<h2>
-🎮 Квестів поки немає
-</h2>
-
-<p>
-Адмін ще не створив квест.
-</p>
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-let quest =
-database.quests[0];
-
-
-box.innerHTML = `
-
-<div class="card">
-
-<h2>
-🎮 ${escapeHTML(quest.name)}
-</h2>
-
-<p>
-${escapeHTML(quest.description)}
-</p>
-
-
-${quest.tasks.map(
-(task,index)=>`
-
-<div class="player">
-
-<h3>
-
-🧩 ${index+1}.
-${escapeHTML(task.title)}
-
-</h3>
-
-<p>
-⭐ ${task.points} балів
-</p>
-
-<input
-id="answer_${task.id}"
-placeholder="Введи відповідь"
->
-
-<button
-onclick="
-checkAnswer(
-'${player.code}',
-${task.id}
-)
-">
-
-Перевірити
-
-</button>
-
-<div
-id="result_${task.id}">
-</div>
-
-</div>
-
-`
-).join("")}
-
-</div>
-
-`;
-
-}
-
-
-/* =========================
-ПЕРЕВІРКА ВІДПОВІДІ
-========================= */
-
-function checkAnswer(
-playerCode,
-taskId
-){
-
-let player =
-database.players.find(
-p=>p.code===playerCode
-);
-
-
-let task =
-database.quests
-.flatMap(
-q=>q.tasks
-)
-.find(
-t=>t.id===taskId
-);
-
-
-if(!player || !task)
-return;
-
-
-let input =
-document.getElementById(
-"answer_"+taskId
-);
-
-
-let result =
-document.getElementById(
-"result_"+taskId
-);
-
-
-if(
-player.completed.includes(
-task.id
-)
-){
-
-result.innerHTML =
-`
-<p class="good">
-✅ Завдання вже виконано.
-</p>
-`;
-
-return;
-
-}
-
-
-let answer =
-input.value
-.trim()
-.toLowerCase();
-
-
-if(answer===task.answer){
-
-player.points +=
-task.points;
-
-
-player.completed.push(
-task.id
-);
-
-
-saveDatabase();
-
-
-result.innerHTML =
-`
-<p class="good">
-
-✅ Правильно!
-
-+${task.points} балів 🎉
-
-</p>
-`;
-
-}else{
-
-result.innerHTML =
-`
-<p class="bad">
-
-❌ Неправильно.
-
-Спробуй ще.
-
-</p>
-`;
-
-}
-
-}
-
-
-/* =========================
-РЕЙТИНГ
-========================= */
-
-function renderResults(){
-
-let box =
-document.getElementById(
-"resultsList"
-);
-
-
-let players =
-[...database.players]
-.sort(
-(a,b)=>
-b.points-a.points
-);
-
-
-if(players.length===0){
-
-box.innerHTML =
-"<p>Результатів ще немає.</p>";
-
-return;
-
-}
-
-
-box.innerHTML =
-players.map(
-(p,index)=>`
-
-<div class="player">
-
-<b>
-
-${index+1}.
-
-${escapeHTML(p.name)}
-
-${escapeHTML(p.surname)}
-
-</b>
-
-<span class="tag">
-
-${p.code}
-
-</span>
-
-<br>
-
-⭐ ${p.points} балів
-
-</div>
-
-`
-).join("");
-
-}
-
-
-/* =========================
-ЗАХИСТ ТЕКСТУ
-========================= */
-
-function escapeHTML(text){
-
-return String(text)
-
-.replaceAll("&","&amp;")
-
-.replaceAll("<","&lt;")
-
-.replaceAll(">","&gt;")
-
-.replaceAll('"',"&quot;")
-
-.replaceAll("'","&#039;");
-
-}
+createTicket();
 
 </script>
 
