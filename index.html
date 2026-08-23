@@ -1,1 +1,1992 @@
-h
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ДОБРОБУТ КЛІНІКА</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f3f6f8;
+    color: #17212b;
+}
+
+header {
+    height: 70px;
+    background: #087f5b;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 25px;
+    box-shadow: 0 2px 8px #0002;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.logo span {
+    font-size: 12px;
+    opacity: .8;
+    margin-left: 10px;
+}
+
+.container {
+    display: flex;
+    min-height: calc(100vh - 70px);
+}
+
+.sidebar {
+    width: 235px;
+    background: white;
+    border-right: 1px solid #ddd;
+    padding: 20px 10px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 7px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.sidebar button:hover,
+.sidebar button.active {
+    background: #e7f5ef;
+    color: #087f5b;
+    font-weight: bold;
+}
+
+main {
+    flex: 1;
+    padding: 25px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 5px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0001;
+}
+
+.card .number {
+    font-size: 30px;
+    font-weight: bold;
+    color: #087f5b;
+    margin-top: 8px;
+}
+
+.panel {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #0001;
+    margin-bottom: 20px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccd3d8;
+    border-radius: 7px;
+    margin-top: 6px;
+    margin-bottom: 14px;
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.btn {
+    background: #087f5b;
+    color: white;
+    border: 0;
+    padding: 12px 18px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.btn:hover {
+    background: #066b4c;
+}
+
+.btn.red {
+    background: #d94848;
+}
+
+.btn.gray {
+    background: #68737c;
+}
+
+.btn.blue {
+    background: #1971c2;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+th {
+    background: #f5f7f8;
+}
+
+tr:hover {
+    background: #fafafa;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.patient-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.patient-card,
+.room-card {
+    background: white;
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: 0 2px 7px #0001;
+}
+
+.patient-card {
+    border-left: 5px solid #087f5b;
+}
+
+.room-card {
+    border-top: 5px solid #087f5b;
+}
+
+.room-number {
+    font-size: 28px;
+    font-weight: bold;
+    color: #087f5b;
+}
+
+.tag {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: #e7f5ef;
+    color: #087f5b;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.status.on {
+    background: #d3f9d8;
+    color: #087f5b;
+}
+
+.status.off {
+    background: #ffe3e3;
+    color: #c92a2a;
+}
+
+@media(max-width: 1000px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid,
+    .patient-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 700px) {
+    .sidebar {
+        width: 65px;
+    }
+
+    .sidebar button {
+        font-size: 0;
+        text-align: center;
+    }
+
+    .sidebar button:first-letter {
+        font-size: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        🏥 ДОБРОБУТ КЛІНІКА
+        <span>МЕДИЧНА ІНФОРМАЦІЙНА СИСТЕМА • ROLEPLAY</span>
+    </div>
+</header>
+
+<div class="container">
+
+<aside class="sidebar">
+
+<button class="active" onclick="showPage('home',this)">
+🏠 Головна
+</button>
+
+<button onclick="showPage('patients',this)">
+👤 Пацієнти
+</button>
+
+<button onclick="showPage('appointments',this)">
+📅 Записи
+</button>
+
+<button onclick="showPage('doctors',this)">
+👨‍⚕️ Лікарі
+</button>
+
+<button onclick="showPage('rooms',this)">
+🏢 Кабінети
+</button>
+
+<button onclick="showPage('tests',this)">
+🧪 Аналізи
+</button>
+
+<button onclick="showPage('database',this)">
+💾 База
+</button>
+
+</aside>
+
+<main>
+
+
+<!-- =========================
+ГОЛОВНА
+========================= -->
+
+<section id="home" class="page active">
+
+<h1>Головна</h1>
+
+<div class="cards">
+
+<div class="card">
+👤 Пацієнтів
+<div class="number" id="countPatients">0</div>
+</div>
+
+<div class="card">
+📅 Записів
+<div class="number" id="countAppointments">0</div>
+</div>
+
+<div class="card">
+👨‍⚕️ Лікарів
+<div class="number" id="countDoctors">0</div>
+</div>
+
+<div class="card">
+🏢 Кабінетів
+<div class="number" id="countRooms">0</div>
+</div>
+
+<div class="card">
+🧪 Аналізів
+<div class="number" id="countTests">0</div>
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>🏢 Кабінети зараз</h2>
+
+<br>
+
+<div id="homeRooms" class="grid"></div>
+
+</div>
+
+<div class="panel">
+
+<h2>Швидкі дії</h2>
+
+<br>
+
+<button class="btn"
+onclick="showPage('patients')">
+➕ Пацієнт
+</button>
+
+<button class="btn"
+onclick="showPage('appointments')">
+📅 Запис
+</button>
+
+<button class="btn"
+onclick="showPage('rooms')">
+🏢 Кабінет
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ПАЦІЄНТИ
+========================= -->
+
+<section id="patients" class="page">
+
+<h1>👤 Пацієнти</h1>
+
+<div class="panel">
+
+<h2>Реєстрація нового пацієнта</h2>
+
+<br>
+
+<div class="grid">
+
+<div>
+<label>Прізвище</label>
+<input id="surname"
+placeholder="Наприклад: Футима">
+</div>
+
+<div>
+<label>Ім'я</label>
+<input id="name"
+placeholder="Наприклад: Себастьян">
+</div>
+
+<div>
+<label>Дата народження</label>
+<input id="birth" type="date">
+</div>
+
+<div>
+<label>Телефон</label>
+<input id="phone"
+placeholder="+380...">
+</div>
+
+</div>
+
+<label>Примітка</label>
+
+<textarea id="note"
+placeholder="Додаткова інформація"></textarea>
+
+<button class="btn"
+onclick="addPatient()">
+💾 Зареєструвати
+</button>
+
+</div>
+
+<div class="panel">
+
+<h2>🔎 Пошук</h2>
+
+<input
+id="patientSearch"
+placeholder="Ім'я або прізвище..."
+oninput="renderPatients()">
+
+</div>
+
+<div id="patientsList"
+class="patient-grid">
+</div>
+
+</section>
+
+
+<!-- =========================
+ЗАПИСИ
+========================= -->
+
+<section id="appointments" class="page">
+
+<h1>📅 Записи на прийом</h1>
+
+<div class="panel">
+
+<h2>Новий запис</h2>
+
+<br>
+
+<label>Пацієнт</label>
+
+<select id="appointmentPatient"></select>
+
+<label>Лікар</label>
+
+<select id="appointmentDoctor"></select>
+
+<label>Кабінет</label>
+
+<select id="appointmentRoom"></select>
+
+<label>Дата</label>
+
+<input id="appointmentDate" type="date">
+
+<label>Час</label>
+
+<input id="appointmentTime" type="time">
+
+<br>
+
+<button class="btn"
+onclick="addAppointment()">
+📅 Створити запис
+</button>
+
+</div>
+
+<div class="panel">
+
+<h2>Заплановані прийоми</h2>
+
+<br>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Дата</th>
+<th>Час</th>
+<th>Пацієнт</th>
+<th>Лікар</th>
+<th>Кабінет</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody id="appointmentsTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+ЛІКАРІ
+========================= -->
+
+<section id="doctors" class="page">
+
+<h1>👨‍⚕️ Лікарі</h1>
+
+<div class="panel">
+
+<h2>Додати лікаря</h2>
+
+<br>
+
+<label>ПІБ</label>
+
+<input id="doctorName"
+placeholder="Іваненко Олександр">
+
+<label>Спеціальність</label>
+
+<input id="doctorSpecialty"
+placeholder="ЛОР">
+
+<button class="btn"
+onclick="addDoctor()">
+➕ Додати
+</button>
+
+</div>
+
+<div class="panel">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Лікар</th>
+<th>Спеціальність</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody id="doctorsTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+КАБІНЕТИ
+========================= -->
+
+<section id="rooms" class="page">
+
+<h1>🏢 Кабінети та зміни</h1>
+
+<div class="panel">
+
+<h2>Додати кабінет</h2>
+
+<br>
+
+<div class="grid">
+
+<div>
+
+<label>Номер кабінету</label>
+
+<input id="roomNumber"
+placeholder="204">
+
+</div>
+
+<div>
+
+<label>Назва / напрямок</label>
+
+<select id="roomType">
+
+<option>ЛОР</option>
+<option>УЗД</option>
+<option>Кардіологія</option>
+<option>Терапія</option>
+<option>Стоматологія</option>
+<option>Офтальмологія</option>
+<option>Хірургія</option>
+<option>Неврологія</option>
+<option>Лабораторія</option>
+<option>Рентген</option>
+<option>Інше</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Лікар на зміні</label>
+
+<select id="roomDoctor"></select>
+
+</div>
+
+<div>
+
+<label>Початок зміни</label>
+
+<input id="shiftStart"
+type="time"
+value="09:00">
+
+</div>
+
+<div>
+
+<label>Кінець зміни</label>
+
+<input id="shiftEnd"
+type="time"
+value="18:00">
+
+</div>
+
+<div>
+
+<label>Статус</label>
+
+<select id="roomStatus">
+
+<option value="on">
+🟢 На зміні
+</option>
+
+<option value="off">
+🔴 Не на зміні
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<br>
+
+<button class="btn"
+onclick="addRoom()">
+➕ Додати кабінет
+</button>
+
+</div>
+
+
+<div id="roomsList"
+class="grid">
+</div>
+
+</section>
+
+
+<!-- =========================
+АНАЛІЗИ
+========================= -->
+
+<section id="tests" class="page">
+
+<h1>🧪 Аналізи</h1>
+
+<div class="panel">
+
+<h2>Новий аналіз</h2>
+
+<br>
+
+<label>Пацієнт</label>
+
+<select id="testPatient"></select>
+
+<label>Назва аналізу</label>
+
+<input id="testName"
+placeholder="Загальний аналіз крові">
+
+<label>Результат</label>
+
+<textarea id="testResult"
+placeholder="Результат"></textarea>
+
+<label>Дата</label>
+
+<input id="testDate" type="date">
+
+<button class="btn"
+onclick="addTest()">
+💾 Зберегти
+</button>
+
+</div>
+
+<div class="panel">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Дата</th>
+<th>Пацієнт</th>
+<th>Аналіз</th>
+<th>Результат</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody id="testsTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+БАЗА
+========================= -->
+
+<section id="database" class="page">
+
+<h1>💾 База даних</h1>
+
+<div class="panel">
+
+<h2>Керування базою</h2>
+
+<br>
+
+<p>
+Дані рольової системи зберігаються у браузері.
+</p>
+
+<br>
+
+<button class="btn"
+onclick="exportData()">
+⬇️ Експорт
+</button>
+
+<button class="btn gray"
+onclick="document.getElementById('importFile').click()">
+⬆️ Імпорт
+</button>
+
+<input
+type="file"
+id="importFile"
+accept=".json"
+style="display:none"
+onchange="importData(event)">
+
+<br><br>
+
+<button class="btn red"
+onclick="clearDatabase()">
+🗑️ Очистити базу
+</button>
+
+</div>
+
+</section>
+
+</main>
+</div>
+
+
+<script>
+
+/* =========================
+БАЗА
+========================= */
+
+let patients =
+JSON.parse(localStorage.getItem("dobrobut_patients")) || [];
+
+let doctors =
+JSON.parse(localStorage.getItem("dobrobut_doctors")) || [];
+
+let appointments =
+JSON.parse(localStorage.getItem("dobrobut_appointments")) || [];
+
+let tests =
+JSON.parse(localStorage.getItem("dobrobut_tests")) || [];
+
+let rooms =
+JSON.parse(localStorage.getItem("dobrobut_rooms")) || [];
+
+
+function saveData() {
+
+localStorage.setItem(
+"dobrobut_patients",
+JSON.stringify(patients)
+);
+
+localStorage.setItem(
+"dobrobut_doctors",
+JSON.stringify(doctors)
+);
+
+localStorage.setItem(
+"dobrobut_appointments",
+JSON.stringify(appointments)
+);
+
+localStorage.setItem(
+"dobrobut_tests",
+JSON.stringify(tests)
+);
+
+localStorage.setItem(
+"dobrobut_rooms",
+JSON.stringify(rooms)
+);
+
+updateDashboard();
+
+}
+
+
+/* =========================
+НАВІГАЦІЯ
+========================= */
+
+function showPage(page, button) {
+
+document.querySelectorAll(".page")
+.forEach(p =>
+p.classList.remove("active")
+);
+
+document.getElementById(page)
+.classList.add("active");
+
+document.querySelectorAll(".sidebar button")
+.forEach(b =>
+b.classList.remove("active")
+);
+
+if(button)
+button.classList.add("active");
+
+renderAll();
+
+}
+
+
+/* =========================
+ПАЦІЄНТИ
+========================= */
+
+function addPatient() {
+
+const surname =
+document.getElementById("surname").value.trim();
+
+const name =
+document.getElementById("name").value.trim();
+
+if(!surname || !name) {
+
+alert("Введіть ім'я та прізвище.");
+
+return;
+
+}
+
+const patient = {
+
+id: Date.now(),
+
+card:
+"DB-" +
+Math.floor(
+100000 +
+Math.random() * 900000
+),
+
+surname,
+name,
+
+birth:
+document.getElementById("birth").value,
+
+phone:
+document.getElementById("phone").value,
+
+note:
+document.getElementById("note").value,
+
+created:
+new Date().toLocaleDateString("uk-UA")
+
+};
+
+patients.push(patient);
+
+saveData();
+
+document.getElementById("surname").value="";
+document.getElementById("name").value="";
+document.getElementById("birth").value="";
+document.getElementById("phone").value="";
+document.getElementById("note").value="";
+
+alert(
+"Пацієнта зареєстровано!\n\n" +
+"Номер картки: " +
+patient.card
+);
+
+renderPatients();
+
+}
+
+
+function renderPatients() {
+
+const list =
+document.getElementById("patientsList");
+
+const search =
+document.getElementById("patientSearch")
+.value
+.toLowerCase();
+
+list.innerHTML="";
+
+patients
+.filter(p =>
+(p.name+" "+p.surname)
+.toLowerCase()
+.includes(search)
+)
+.forEach(p => {
+
+list.innerHTML += `
+
+<div class="patient-card">
+
+<h3>
+${p.surname} ${p.name}
+</h3>
+
+<span class="tag">
+${p.card}
+</span>
+
+<br><br>
+
+<b>Дата народження:</b>
+${p.birth || "—"}
+
+<br>
+
+<b>Телефон:</b>
+${p.phone || "—"}
+
+<br><br>
+
+<b>Примітка:</b>
+${p.note || "Немає"}
+
+<br><br>
+
+<button
+class="btn red"
+onclick="deletePatient(${p.id})">
+Видалити
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+function deletePatient(id) {
+
+if(!confirm("Видалити пацієнта?"))
+return;
+
+patients =
+patients.filter(p =>
+p.id !== id
+);
+
+saveData();
+
+renderPatients();
+
+}
+
+
+/* =========================
+ЛІКАРІ
+========================= */
+
+function addDoctor() {
+
+const name =
+document.getElementById("doctorName")
+.value.trim();
+
+const specialty =
+document.getElementById("doctorSpecialty")
+.value.trim();
+
+if(!name || !specialty) {
+
+alert("Заповніть дані.");
+
+return;
+
+}
+
+doctors.push({
+
+id: Date.now(),
+
+name,
+specialty
+
+});
+
+saveData();
+
+document.getElementById("doctorName").value="";
+document.getElementById("doctorSpecialty").value="";
+
+renderDoctors();
+
+}
+
+
+function renderDoctors() {
+
+const table =
+document.getElementById("doctorsTable");
+
+table.innerHTML="";
+
+doctors.forEach(d => {
+
+table.innerHTML += `
+
+<tr>
+
+<td>${d.name}</td>
+
+<td>${d.specialty}</td>
+
+<td>
+
+<button
+class="btn red"
+onclick="deleteDoctor(${d.id})">
+Видалити
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+function deleteDoctor(id) {
+
+if(!confirm("Видалити лікаря?"))
+return;
+
+doctors =
+doctors.filter(d =>
+d.id !== id
+);
+
+saveData();
+
+renderDoctors();
+
+}
+
+
+/* =========================
+КАБІНЕТИ
+========================= */
+
+function addRoom() {
+
+const number =
+document.getElementById("roomNumber")
+.value.trim();
+
+const type =
+document.getElementById("roomType")
+.value;
+
+const doctorId =
+document.getElementById("roomDoctor")
+.value;
+
+const shiftStart =
+document.getElementById("shiftStart")
+.value;
+
+const shiftEnd =
+document.getElementById("shiftEnd")
+.value;
+
+const status =
+document.getElementById("roomStatus")
+.value;
+
+if(!number) {
+
+alert("Вкажіть номер кабінету.");
+
+return;
+
+}
+
+rooms.push({
+
+id: Date.now(),
+
+number,
+type,
+
+doctorId:
+doctorId
+? Number(doctorId)
+: null,
+
+shiftStart,
+shiftEnd,
+status
+
+});
+
+saveData();
+
+document.getElementById("roomNumber").value="";
+
+renderRooms();
+
+alert(
+"Кабінет №" +
+number +
+" додано!"
+);
+
+}
+
+
+function renderRooms() {
+
+const list =
+document.getElementById("roomsList");
+
+list.innerHTML="";
+
+rooms.forEach(room => {
+
+const doctor =
+doctors.find(d =>
+d.id === room.doctorId
+);
+
+const doctorName =
+doctor
+? doctor.name
+: "Лікар не призначений";
+
+const statusText =
+room.status === "on"
+? "🟢 На зміні"
+: "🔴 Не на зміні";
+
+const statusClass =
+room.status === "on"
+? "on"
+: "off";
+
+list.innerHTML += `
+
+<div class="room-card">
+
+<div class="room-number">
+Кабінет №${room.number}
+</div>
+
+<br>
+
+<h3>
+🩺 ${room.type}
+</h3>
+
+<br>
+
+<b>👨‍⚕️ Лікар:</b>
+
+<br>
+
+${doctorName}
+
+<br><br>
+
+<b>🕐 Зміна:</b>
+
+<br>
+
+${room.shiftStart}
+—
+${room.shiftEnd}
+
+<br>
+
+<span class="status ${statusClass}">
+${statusText}
+</span>
+
+<br><br>
+
+<button
+class="btn red"
+onclick="deleteRoom(${room.id})">
+Видалити
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+function deleteRoom(id) {
+
+if(!confirm("Видалити кабінет?"))
+return;
+
+rooms =
+rooms.filter(r =>
+r.id !== id
+);
+
+saveData();
+
+renderRooms();
+
+}
+
+
+/* =========================
+ЗАПИСИ
+========================= */
+
+function updateSelects() {
+
+const patientSelect =
+document.getElementById(
+"appointmentPatient"
+);
+
+const testPatient =
+document.getElementById(
+"testPatient"
+);
+
+patientSelect.innerHTML="";
+testPatient.innerHTML="";
+
+patients.forEach(p => {
+
+const option =
+document.createElement("option");
+
+option.value=p.id;
+
+option.textContent =
+`${p.surname} ${p.name} (${p.card})`;
+
+patientSelect.appendChild(option);
+
+testPatient.appendChild(
+option.cloneNode(true)
+);
+
+});
+
+
+const doctorSelect =
+document.getElementById(
+"appointmentDoctor"
+);
+
+doctorSelect.innerHTML="";
+
+doctors.forEach(d => {
+
+const option =
+document.createElement("option");
+
+option.value=d.id;
+
+option.textContent =
+`${d.name} — ${d.specialty}`;
+
+doctorSelect.appendChild(option);
+
+});
+
+
+const roomDoctor =
+document.getElementById(
+"roomDoctor"
+);
+
+roomDoctor.innerHTML =
+'<option value="">Без лікаря</option>';
+
+doctors.forEach(d => {
+
+const option =
+document.createElement("option");
+
+option.value=d.id;
+
+option.textContent =
+`${d.name} — ${d.specialty}`;
+
+roomDoctor.appendChild(option);
+
+});
+
+
+const appointmentRoom =
+document.getElementById(
+"appointmentRoom"
+);
+
+appointmentRoom.innerHTML="";
+
+rooms.forEach(r => {
+
+const doctor =
+doctors.find(d =>
+d.id === r.doctorId
+);
+
+const option =
+document.createElement("option");
+
+option.value=r.id;
+
+option.textContent =
+`№${r.number} — ${r.type}` +
+(doctor
+? ` — ${doctor.name}`
+: "");
+
+appointmentRoom.appendChild(option);
+
+});
+
+}
+
+
+function addAppointment() {
+
+if(patients.length === 0) {
+
+alert("Спочатку додайте пацієнта.");
+
+return;
+
+}
+
+const patientId =
+Number(
+document.getElementById(
+"appointmentPatient"
+).value
+);
+
+const doctorId =
+Number(
+document.getElementById(
+"appointmentDoctor"
+).value
+);
+
+const roomId =
+Number(
+document.getElementById(
+"appointmentRoom"
+).value
+);
+
+const date =
+document.getElementById(
+"appointmentDate"
+).value;
+
+const time =
+document.getElementById(
+"appointmentTime"
+).value;
+
+if(!date || !time) {
+
+alert("Вкажіть дату та час.");
+
+return;
+
+}
+
+appointments.push({
+
+id: Date.now(),
+
+patientId,
+doctorId,
+roomId,
+
+date,
+time
+
+});
+
+saveData();
+
+alert("Запис створено!");
+
+renderAppointments();
+
+}
+
+
+function renderAppointments() {
+
+const table =
+document.getElementById(
+"appointmentsTable"
+);
+
+table.innerHTML="";
+
+appointments
+.sort((a,b) =>
+(a.date+a.time)
+.localeCompare(
+b.date+b.time
+)
+)
+.forEach(a => {
+
+const patient =
+patients.find(p =>
+p.id === a.patientId
+);
+
+const doctor =
+doctors.find(d =>
+d.id === a.doctorId
+);
+
+const room =
+rooms.find(r =>
+r.id === a.roomId
+);
+
+table.innerHTML += `
+
+<tr>
+
+<td>${a.date}</td>
+
+<td>${a.time}</td>
+
+<td>
+${patient
+? patient.surname+" "+patient.name
+: "Невідомий"}
+</td>
+
+<td>
+${doctor
+? doctor.name
+: "Невідомий"}
+</td>
+
+<td>
+${room
+? "№"+room.number+" — "+room.type
+: "—"}
+</td>
+
+<td>
+
+<button
+class="btn red"
+onclick="deleteAppointment(${a.id})">
+✕
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+function deleteAppointment(id) {
+
+appointments =
+appointments.filter(a =>
+a.id !== id
+);
+
+saveData();
+
+renderAppointments();
+
+}
+
+
+/* =========================
+АНАЛІЗИ
+========================= */
+
+function addTest() {
+
+if(patients.length === 0) {
+
+alert("Спочатку додайте пацієнта.");
+
+return;
+
+}
+
+const patientId =
+Number(
+document.getElementById(
+"testPatient"
+).value
+);
+
+const name =
+document.getElementById(
+"testName"
+).value.trim();
+
+const result =
+document.getElementById(
+"testResult"
+).value.trim();
+
+const date =
+document.getElementById(
+"testDate"
+).value;
+
+if(!name || !result || !date) {
+
+alert("Заповніть усі поля.");
+
+return;
+
+}
+
+tests.push({
+
+id: Date.now(),
+
+patientId,
+name,
+result,
+date
+
+});
+
+saveData();
+
+renderTests();
+
+alert("Аналіз збережено.");
+
+}
+
+
+function renderTests() {
+
+const table =
+document.getElementById(
+"testsTable"
+);
+
+table.innerHTML="";
+
+tests.forEach(t => {
+
+const patient =
+patients.find(p =>
+p.id === t.patientId
+);
+
+table.innerHTML += `
+
+<tr>
+
+<td>${t.date}</td>
+
+<td>
+${patient
+? patient.surname+" "+patient.name
+: "Невідомий"}
+</td>
+
+<td>${t.name}</td>
+
+<td>${t.result}</td>
+
+<td>
+
+<button
+class="btn red"
+onclick="deleteTest(${t.id})">
+✕
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+function deleteTest(id) {
+
+tests =
+tests.filter(t =>
+t.id !== id
+);
+
+saveData();
+
+renderTests();
+
+}
+
+
+/* =========================
+ГОЛОВНА
+========================= */
+
+function updateDashboard() {
+
+document.getElementById(
+"countPatients"
+).textContent =
+patients.length;
+
+document.getElementById(
+"countAppointments"
+).textContent =
+appointments.length;
+
+document.getElementById(
+"countDoctors"
+).textContent =
+doctors.length;
+
+document.getElementById(
+"countRooms"
+).textContent =
+rooms.length;
+
+document.getElementById(
+"countTests"
+).textContent =
+tests.length;
+
+
+const homeRooms =
+document.getElementById(
+"homeRooms"
+);
+
+homeRooms.innerHTML="";
+
+rooms.forEach(room => {
+
+const doctor =
+doctors.find(d =>
+d.id === room.doctorId
+);
+
+homeRooms.innerHTML += `
+
+<div class="room-card">
+
+<div class="room-number">
+№${room.number}
+</div>
+
+<h3>${room.type}</h3>
+
+<br>
+
+👨‍⚕️
+${doctor
+? doctor.name
+: "Без лікаря"}
+
+<br>
+
+🕐
+${room.shiftStart}
+—
+${room.shiftEnd}
+
+<br>
+
+<span class="status
+${room.status === "on"
+? "on"
+: "off"}">
+
+${room.status === "on"
+? "🟢 На зміні"
+: "🔴 Не на зміні"}
+
+</span>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* =========================
+ЕКСПОРТ
+========================= */
+
+function exportData() {
+
+const data = {
+
+patients,
+doctors,
+appointments,
+tests,
+rooms
+
+};
+
+const blob =
+new Blob(
+[
+JSON.stringify(
+data,
+null,
+2
+)
+],
+{
+type:"application/json"
+}
+);
+
+const url =
+URL.createObjectURL(blob);
+
+const a =
+document.createElement("a");
+
+a.href=url;
+
+a.download =
+"dobrobut-klinika-backup.json";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================
+ІМПОРТ
+========================= */
+
+function importData(event) {
+
+const file =
+event.target.files[0];
+
+if(!file)
+return;
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(e) {
+
+try {
+
+const data =
+JSON.parse(
+e.target.result
+);
+
+patients =
+data.patients || [];
+
+doctors =
+data.doctors || [];
+
+appointments =
+data.appointments || [];
+
+tests =
+data.tests || [];
+
+rooms =
+data.rooms || [];
+
+saveData();
+
+renderAll();
+
+alert(
+"Базу успішно імпортовано!"
+);
+
+}
+
+catch {
+
+alert(
+"Помилка імпорту."
+);
+
+}
+
+};
+
+reader.readAsText(file);
+
+}
+
+
+/* =========================
+ОЧИЩЕННЯ
+========================= */
+
+function clearDatabase() {
+
+if(!confirm(
+"УВАГА!\n\n" +
+"Видалити всю базу клініки?"
+))
+return;
+
+patients=[];
+doctors=[];
+appointments=[];
+tests=[];
+rooms=[];
+
+saveData();
+
+renderAll();
+
+alert("Базу очищено.");
+
+}
+
+
+/* =========================
+RENDER
+========================= */
+
+function renderAll() {
+
+updateDashboard();
+
+renderPatients();
+
+renderDoctors();
+
+renderRooms();
+
+renderAppointments();
+
+renderTests();
+
+updateSelects();
+
+}
+
+renderAll();
+
+</script>
+
+</body>
+</html>
