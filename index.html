@@ -3,279 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ДОБРОБУТ КЛІНІКА</title>
+<title>WASH PRO — Автомийка</title>
 
 <style>
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
 }
 
 body {
-    background: #f3f6f8;
-    color: #17212b;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f6;
+    color: #17202a;
 }
 
 header {
-    height: 70px;
-    background: #087f5b;
+    background: #111827;
     color: white;
-    display: flex;
-    align-items: center;
-    padding: 0 25px;
-    box-shadow: 0 2px 8px #0002;
+    padding: 18px;
+    text-align: center;
 }
 
-.logo {
-    font-size: 24px;
+header h1 {
+    margin: 0;
+    font-size: 26px;
+}
+
+header p {
+    margin: 6px 0 0;
+    color: #cbd5e1;
+}
+
+nav {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    background: white;
+    overflow-x: auto;
+}
+
+nav button {
+    border: 0;
+    background: #e5e7eb;
+    padding: 12px 16px;
+    border-radius: 10px;
+    white-space: nowrap;
     font-weight: bold;
 }
 
-.logo span {
-    font-size: 12px;
-    opacity: .8;
-    margin-left: 10px;
+nav button.active {
+    background: #111827;
+    color: white;
 }
 
 .container {
-    display: flex;
-    min-height: calc(100vh - 70px);
+    max-width: 1100px;
+    margin: auto;
+    padding: 15px;
 }
 
-.sidebar {
-    width: 235px;
-    background: white;
-    border-right: 1px solid #ddd;
-    padding: 20px 10px;
-}
-
-.sidebar button {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 7px;
-    border: 0;
-    background: transparent;
-    text-align: left;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-}
-
-.sidebar button:hover,
-.sidebar button.active {
-    background: #e7f5ef;
-    color: #087f5b;
-    font-weight: bold;
-}
-
-main {
-    flex: 1;
-    padding: 25px;
-}
-
-.page {
+.section {
     display: none;
 }
 
-.page.active {
+.section.active {
     display: block;
-}
-
-h1 {
-    margin-bottom: 20px;
-}
-
-h2 {
-    margin-bottom: 5px;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-    margin-bottom: 25px;
 }
 
 .card {
     background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px #0001;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.06);
 }
 
-.card .number {
-    font-size: 30px;
-    font-weight: bold;
-    color: #087f5b;
-    margin-top: 8px;
+h2 {
+    margin-top: 0;
 }
 
-.panel {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px #0001;
-    margin-bottom: 20px;
-}
-
-input,
-select,
-textarea {
+input, select {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccd3d8;
-    border-radius: 7px;
-    margin-top: 6px;
-    margin-bottom: 14px;
-    font-size: 14px;
+    padding: 13px;
+    margin: 6px 0 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 16px;
 }
 
-textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-label {
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.btn {
-    background: #087f5b;
-    color: white;
-    border: 0;
-    padding: 12px 18px;
-    border-radius: 7px;
+button {
     cursor: pointer;
+}
+
+.main-btn {
+    border: 0;
+    background: #111827;
+    color: white;
+    padding: 13px 18px;
+    border-radius: 10px;
     font-weight: bold;
-    margin-right: 5px;
 }
 
-.btn:hover {
-    background: #066b4c;
+.green {
+    background: #16a34a;
 }
 
-.btn.red {
-    background: #d94848;
+.orange {
+    background: #f59e0b;
 }
 
-.btn.gray {
-    background: #68737c;
+.red {
+    background: #dc2626;
 }
 
-.btn.blue {
-    background: #1971c2;
+.blue {
+    background: #2563eb;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
 }
 
-th,
-td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-}
-
-th {
-    background: #f5f7f8;
-}
-
-tr:hover {
+.service {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 13px;
     background: #fafafa;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+.service.selected {
+    border-color: #2563eb;
+    background: #eff6ff;
 }
 
-.patient-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.patient-card,
-.room-card {
-    background: white;
-    padding: 18px;
-    border-radius: 10px;
-    box-shadow: 0 2px 7px #0001;
-}
-
-.patient-card {
-    border-left: 5px solid #087f5b;
-}
-
-.room-card {
-    border-top: 5px solid #087f5b;
-}
-
-.room-number {
-    font-size: 28px;
+.service label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
     font-weight: bold;
-    color: #087f5b;
 }
 
-.tag {
+.service input {
+    width: auto;
+    margin: 0;
+}
+
+.service small {
+    display: block;
+    margin-top: 7px;
+    color: #64748b;
+}
+
+.timer-box {
+    text-align: center;
+    background: #111827;
+    color: white;
+    border-radius: 18px;
+    padding: 25px;
+}
+
+.timer {
+    font-size: 48px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.price {
+    font-size: 36px;
+    color: #86efac;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.order {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.badge {
     display: inline-block;
     padding: 5px 9px;
-    border-radius: 20px;
-    background: #e7f5ef;
-    color: #087f5b;
-    font-size: 12px;
+    border-radius: 8px;
+    background: #e5e7eb;
+    font-size: 13px;
     margin-top: 5px;
 }
 
-.status {
-    display: inline-block;
-    padding: 6px 10px;
-    border-radius: 20px;
-    font-size: 12px;
+.total {
+    font-size: 24px;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
-.status.on {
-    background: #d3f9d8;
-    color: #087f5b;
-}
-
-.status.off {
-    background: #ffe3e3;
-    color: #c92a2a;
-}
-
-@media(max-width: 1000px) {
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
+@media(max-width:600px) {
+    .timer {
+        font-size: 38px;
     }
 
-    .grid,
-    .patient-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media(max-width: 700px) {
-    .sidebar {
-        width: 65px;
-    }
-
-    .sidebar button {
-        font-size: 0;
-        text-align: center;
-    }
-
-    .sidebar button:first-letter {
-        font-size: 20px;
+    .price {
+        font-size: 30px;
     }
 }
 </style>
@@ -284,1706 +221,822 @@ tr:hover {
 <body>
 
 <header>
-    <div class="logo">
-        🏥 ДОБРОБУТ КЛІНІКА
-        <span>МЕДИЧНА ІНФОРМАЦІЙНА СИСТЕМА • ROLEPLAY</span>
-    </div>
+    <h1>🚗 WASH PRO</h1>
+    <p>Система керування автомийкою</p>
 </header>
+
+<nav>
+    <button class="active" onclick="showSection('wash', this)">🚗 Мийка</button>
+    <button onclick="showSection('booking', this)">📅 Записи</button>
+    <button onclick="showSection('history', this)">📋 Історія</button>
+    <button onclick="showSection('workers', this)">👥 Співробітники</button>
+</nav>
 
 <div class="container">
 
-<aside class="sidebar">
+<!-- МИЙКА -->
 
-<button class="active" onclick="showPage('home',this)">
-🏠 Головна
-</button>
-
-<button onclick="showPage('patients',this)">
-👤 Пацієнти
-</button>
-
-<button onclick="showPage('appointments',this)">
-📅 Записи
-</button>
-
-<button onclick="showPage('doctors',this)">
-👨‍⚕️ Лікарі
-</button>
-
-<button onclick="showPage('rooms',this)">
-🏢 Кабінети
-</button>
-
-<button onclick="showPage('tests',this)">
-🧪 Аналізи
-</button>
-
-<button onclick="showPage('database',this)">
-💾 База
-</button>
-
-</aside>
-
-<main>
-
-
-<!-- =========================
-ГОЛОВНА
-========================= -->
-
-<section id="home" class="page active">
-
-<h1>Головна</h1>
-
-<div class="cards">
+<section id="wash" class="section active">
 
 <div class="card">
-👤 Пацієнтів
-<div class="number" id="countPatients">0</div>
-</div>
+<h2>🚗 Дані клієнта</h2>
 
-<div class="card">
-📅 Записів
-<div class="number" id="countAppointments">0</div>
-</div>
+<input id="clientName" placeholder="Ім'я клієнта">
 
-<div class="card">
-👨‍⚕️ Лікарів
-<div class="number" id="countDoctors">0</div>
-</div>
+<input id="carBrand" placeholder="Марка авто">
 
-<div class="card">
-🏢 Кабінетів
-<div class="number" id="countRooms">0</div>
-</div>
+<input id="carModel" placeholder="Модель авто">
 
-<div class="card">
-🧪 Аналізів
-<div class="number" id="countTests">0</div>
-</div>
-
-</div>
-
-<div class="panel">
-
-<h2>🏢 Кабінети зараз</h2>
-
-<br>
-
-<div id="homeRooms" class="grid"></div>
-
-</div>
-
-<div class="panel">
-
-<h2>Швидкі дії</h2>
-
-<br>
-
-<button class="btn"
-onclick="showPage('patients')">
-➕ Пацієнт
-</button>
-
-<button class="btn"
-onclick="showPage('appointments')">
-📅 Запис
-</button>
-
-<button class="btn"
-onclick="showPage('rooms')">
-🏢 Кабінет
-</button>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-ПАЦІЄНТИ
-========================= -->
-
-<section id="patients" class="page">
-
-<h1>👤 Пацієнти</h1>
-
-<div class="panel">
-
-<h2>Реєстрація нового пацієнта</h2>
-
-<br>
-
-<div class="grid">
-
-<div>
-<label>Прізвище</label>
-<input id="surname"
-placeholder="Наприклад: Футима">
-</div>
-
-<div>
-<label>Ім'я</label>
-<input id="name"
-placeholder="Наприклад: Себастьян">
-</div>
-
-<div>
-<label>Дата народження</label>
-<input id="birth" type="date">
-</div>
-
-<div>
-<label>Телефон</label>
-<input id="phone"
-placeholder="+380...">
-</div>
-
-</div>
-
-<label>Примітка</label>
-
-<textarea id="note"
-placeholder="Додаткова інформація"></textarea>
-
-<button class="btn"
-onclick="addPatient()">
-💾 Зареєструвати
-</button>
-
-</div>
-
-<div class="panel">
-
-<h2>🔎 Пошук</h2>
-
-<input
-id="patientSearch"
-placeholder="Ім'я або прізвище..."
-oninput="renderPatients()">
-
-</div>
-
-<div id="patientsList"
-class="patient-grid">
-</div>
-
-</section>
-
-
-<!-- =========================
-ЗАПИСИ
-========================= -->
-
-<section id="appointments" class="page">
-
-<h1>📅 Записи на прийом</h1>
-
-<div class="panel">
-
-<h2>Новий запис</h2>
-
-<br>
-
-<label>Пацієнт</label>
-
-<select id="appointmentPatient"></select>
-
-<label>Лікар</label>
-
-<select id="appointmentDoctor"></select>
-
-<label>Кабінет</label>
-
-<select id="appointmentRoom"></select>
-
-<label>Дата</label>
-
-<input id="appointmentDate" type="date">
-
-<label>Час</label>
-
-<input id="appointmentTime" type="time">
-
-<br>
-
-<button class="btn"
-onclick="addAppointment()">
-📅 Створити запис
-</button>
-
-</div>
-
-<div class="panel">
-
-<h2>Заплановані прийоми</h2>
-
-<br>
-
-<table>
-
-<thead>
-
-<tr>
-<th>Дата</th>
-<th>Час</th>
-<th>Пацієнт</th>
-<th>Лікар</th>
-<th>Кабінет</th>
-<th></th>
-</tr>
-
-</thead>
-
-<tbody id="appointmentsTable"></tbody>
-
-</table>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-ЛІКАРІ
-========================= -->
-
-<section id="doctors" class="page">
-
-<h1>👨‍⚕️ Лікарі</h1>
-
-<div class="panel">
-
-<h2>Додати лікаря</h2>
-
-<br>
-
-<label>ПІБ</label>
-
-<input id="doctorName"
-placeholder="Іваненко Олександр">
-
-<label>Спеціальність</label>
-
-<input id="doctorSpecialty"
-placeholder="ЛОР">
-
-<button class="btn"
-onclick="addDoctor()">
-➕ Додати
-</button>
-
-</div>
-
-<div class="panel">
-
-<table>
-
-<thead>
-
-<tr>
-<th>Лікар</th>
-<th>Спеціальність</th>
-<th></th>
-</tr>
-
-</thead>
-
-<tbody id="doctorsTable"></tbody>
-
-</table>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-КАБІНЕТИ
-========================= -->
-
-<section id="rooms" class="page">
-
-<h1>🏢 Кабінети та зміни</h1>
-
-<div class="panel">
-
-<h2>Додати кабінет</h2>
-
-<br>
-
-<div class="grid">
-
-<div>
-
-<label>Номер кабінету</label>
-
-<input id="roomNumber"
-placeholder="204">
-
-</div>
-
-<div>
-
-<label>Назва / напрямок</label>
-
-<select id="roomType">
-
-<option>ЛОР</option>
-<option>УЗД</option>
-<option>Кардіологія</option>
-<option>Терапія</option>
-<option>Стоматологія</option>
-<option>Офтальмологія</option>
-<option>Хірургія</option>
-<option>Неврологія</option>
-<option>Лабораторія</option>
-<option>Рентген</option>
-<option>Інше</option>
-
+<select id="carType">
+<option value="">Тип автомобіля</option>
+<option>Легкове авто</option>
+<option>Кросовер</option>
+<option>Позашляховик</option>
+<option>Мікроавтобус</option>
 </select>
 
-</div>
-
-<div>
-
-<label>Лікар на зміні</label>
-
-<select id="roomDoctor"></select>
-
-</div>
-
-<div>
-
-<label>Початок зміни</label>
-
-<input id="shiftStart"
-type="time"
-value="09:00">
-
-</div>
-
-<div>
-
-<label>Кінець зміни</label>
-
-<input id="shiftEnd"
-type="time"
-value="18:00">
-
-</div>
-
-<div>
-
-<label>Статус</label>
-
-<select id="roomStatus">
-
-<option value="on">
-🟢 На зміні
-</option>
-
-<option value="off">
-🔴 Не на зміні
-</option>
-
+<select id="workerSelect">
+<option value="">Оберіть співробітника</option>
 </select>
-
 </div>
 
-</div>
 
-<br>
+<div class="card">
+<h2>🧽 Послуги</h2>
 
-<button class="btn"
-onclick="addRoom()">
-➕ Додати кабінет
+<button class="main-btn blue" onclick="selectAllCar()">
+🚿 ВСЕ АВТО
 </button>
-
-</div>
-
-
-<div id="roomsList"
-class="grid">
-</div>
-
-</section>
-
-
-<!-- =========================
-АНАЛІЗИ
-========================= -->
-
-<section id="tests" class="page">
-
-<h1>🧪 Аналізи</h1>
-
-<div class="panel">
-
-<h2>Новий аналіз</h2>
-
-<br>
-
-<label>Пацієнт</label>
-
-<select id="testPatient"></select>
-
-<label>Назва аналізу</label>
-
-<input id="testName"
-placeholder="Загальний аналіз крові">
-
-<label>Результат</label>
-
-<textarea id="testResult"
-placeholder="Результат"></textarea>
-
-<label>Дата</label>
-
-<input id="testDate" type="date">
-
-<button class="btn"
-onclick="addTest()">
-💾 Зберегти
-</button>
-
-</div>
-
-<div class="panel">
-
-<table>
-
-<thead>
-
-<tr>
-<th>Дата</th>
-<th>Пацієнт</th>
-<th>Аналіз</th>
-<th>Результат</th>
-<th></th>
-</tr>
-
-</thead>
-
-<tbody id="testsTable"></tbody>
-
-</table>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-БАЗА
-========================= -->
-
-<section id="database" class="page">
-
-<h1>💾 База даних</h1>
-
-<div class="panel">
-
-<h2>Керування базою</h2>
-
-<br>
-
-<p>
-Дані рольової системи зберігаються у браузері.
-</p>
-
-<br>
-
-<button class="btn"
-onclick="exportData()">
-⬇️ Експорт
-</button>
-
-<button class="btn gray"
-onclick="document.getElementById('importFile').click()">
-⬆️ Імпорт
-</button>
-
-<input
-type="file"
-id="importFile"
-accept=".json"
-style="display:none"
-onchange="importData(event)">
 
 <br><br>
 
-<button class="btn red"
-onclick="clearDatabase()">
-🗑️ Очистити базу
+<div class="service-grid" id="services"></div>
+
+<div class="total">
+Разом за хвилину: <span id="rate">0</span> грн
+</div>
+</div>
+
+
+<div class="card">
+
+<div class="timer-box">
+
+<div>⏱️ ЧАС МИЙКИ</div>
+
+<div class="timer" id="timer">
+00:00
+</div>
+
+<div class="price">
+₴ <span id="livePrice">0.00</span>
+</div>
+
+<div class="buttons">
+
+<button class="main-btn green" onclick="startTimer()">
+▶️ Старт
 </button>
+
+<button class="main-btn orange" onclick="pauseTimer()">
+⏸️ Пауза
+</button>
+
+<button class="main-btn red" onclick="finishWash()">
+⏹️ Завершити
+</button>
+
+</div>
+
+</div>
 
 </div>
 
 </section>
 
-</main>
+
+<!-- БРОНЮВАННЯ -->
+
+<section id="booking" class="section">
+
+<div class="card">
+
+<h2>📅 Новий запис</h2>
+
+<input id="bookName" placeholder="Ім'я клієнта">
+
+<input id="bookCar" placeholder="Марка та модель авто">
+
+<input id="bookDate" type="date">
+
+<input id="bookTime" type="time">
+
+<select id="bookService">
+<option>Все авто</option>
+<option>Повна зовнішня</option>
+<option>Зовнішня + салон</option>
+<option>Фари</option>
+<option>Дзеркала</option>
+<option>Кузов</option>
+<option>Салон</option>
+</select>
+
+<button class="main-btn blue" onclick="addBooking()">
+➕ Додати запис
+</button>
+
+</div>
+
+<div class="card">
+<h2>📋 Майбутні записи</h2>
+<div id="bookingList"></div>
+</div>
+
+</section>
+
+
+<!-- ІСТОРІЯ -->
+
+<section id="history" class="section">
+
+<div class="card">
+
+<h2>📋 Історія мийок</h2>
+
+<div id="historyList"></div>
+
+</div>
+
+</section>
+
+
+<!-- СПІВРОБІТНИКИ -->
+
+<section id="workers" class="section">
+
+<div class="card">
+
+<h2>👥 Співробітники</h2>
+
+<input id="workerName" placeholder="Ім'я співробітника">
+
+<input id="workerPosition" placeholder="Посада">
+
+<button class="main-btn blue" onclick="addWorker()">
+➕ Додати співробітника
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>👤 Команда</h2>
+
+<div id="workerList"></div>
+
+</div>
+
+</section>
+
 </div>
 
 
 <script>
 
-/* =========================
-БАЗА
-========================= */
+const services = [
 
-let patients =
-JSON.parse(localStorage.getItem("dobrobut_patients")) || [];
+    // КОМПЛЕКСИ
+    {name:"🚿 Все авто", price:70, group:"all"},
+    {name:"🚗 Повна зовнішня", price:50, group:"all"},
+    {name:"✨ Зовнішня + салон", price:65, group:"all"},
 
-let doctors =
-JSON.parse(localStorage.getItem("dobrobut_doctors")) || [];
+    // КУЗОВ
+    {name:"Передня частина", price:15},
+    {name:"Задня частина", price:15},
+    {name:"Ліва сторона", price:15},
+    {name:"Права сторона", price:15},
+    {name:"Дах", price:10},
+    {name:"Капот", price:10},
+    {name:"Багажник", price:10},
 
-let appointments =
-JSON.parse(localStorage.getItem("dobrobut_appointments")) || [];
+    // ФАРИ
+    {name:"Фара ліва", price:10},
+    {name:"Фара права", price:10},
+    {name:"Лівий задній ліхтар", price:8},
+    {name:"Правий задній ліхтар", price:8},
 
-let tests =
-JSON.parse(localStorage.getItem("dobrobut_tests")) || [];
+    // ДЗЕРКАЛА
+    {name:"Дзеркало ліве", price:10},
+    {name:"Дзеркало праве", price:10},
 
-let rooms =
-JSON.parse(localStorage.getItem("dobrobut_rooms")) || [];
+    // СКЛО
+    {name:"Лобове скло", price:15},
+    {name:"Заднє скло", price:12},
+    {name:"Переднє ліве скло", price:8},
+    {name:"Переднє праве скло", price:8},
+    {name:"Заднє ліве скло", price:8},
+    {name:"Заднє праве скло", price:8},
+
+    // КОЛЕСА
+    {name:"Переднє ліве колесо", price:10},
+    {name:"Переднє праве колесо", price:10},
+    {name:"Заднє ліве колесо", price:10},
+    {name:"Заднє праве колесо", price:10},
+
+    // САЛОН
+    {name:"Передні сидіння", price:12},
+    {name:"Задні сидіння", price:12},
+    {name:"Підлога", price:12},
+    {name:"Панель приладів", price:10},
+    {name:"Багажник — прибирання", price:10}
+];
+
+let workers = JSON.parse(localStorage.getItem("workers") || "[]");
+let bookings = JSON.parse(localStorage.getItem("bookings") || "[]");
+let history = JSON.parse(localStorage.getItem("history") || "[]");
+
+let selectedServices = [];
+
+let timerInterval = null;
+let seconds = 0;
+let running = false;
+let currentRate = 0;
 
 
-function saveData() {
+// ВІДКРИТТЯ РОЗДІЛІВ
 
-localStorage.setItem(
-"dobrobut_patients",
-JSON.stringify(patients)
-);
+function showSection(id, btn) {
 
-localStorage.setItem(
-"dobrobut_doctors",
-JSON.stringify(doctors)
-);
+    document.querySelectorAll(".section").forEach(s =>
+        s.classList.remove("active")
+    );
 
-localStorage.setItem(
-"dobrobut_appointments",
-JSON.stringify(appointments)
-);
+    document.getElementById(id).classList.add("active");
 
-localStorage.setItem(
-"dobrobut_tests",
-JSON.stringify(tests)
-);
+    document.querySelectorAll("nav button").forEach(b =>
+        b.classList.remove("active")
+    );
 
-localStorage.setItem(
-"dobrobut_rooms",
-JSON.stringify(rooms)
-);
+    btn.classList.add("active");
 
-updateDashboard();
-
+    renderAll();
 }
 
 
-/* =========================
-НАВІГАЦІЯ
-========================= */
+// ПОКАЗ ПОСЛУГ
 
-function showPage(page, button) {
+function renderServices() {
 
-document.querySelectorAll(".page")
-.forEach(p =>
-p.classList.remove("active")
-);
+    const box = document.getElementById("services");
 
-document.getElementById(page)
-.classList.add("active");
+    box.innerHTML = "";
 
-document.querySelectorAll(".sidebar button")
-.forEach(b =>
-b.classList.remove("active")
-);
+    services.forEach((service, index) => {
 
-if(button)
-button.classList.add("active");
+        const div = document.createElement("div");
 
-renderAll();
+        div.className = "service";
 
+        div.innerHTML = `
+            <label>
+                <input type="checkbox"
+                    onchange="toggleService(${index}, this)"
+                    data-index="${index}">
+                ${service.name}
+            </label>
+            <small>💰 ${service.price} грн/хв</small>
+        `;
+
+        box.appendChild(div);
+    });
 }
 
 
-/* =========================
-ПАЦІЄНТИ
-========================= */
+// ВИБІР ПОСЛУГИ
 
-function addPatient() {
+function toggleService(index, checkbox) {
 
-const surname =
-document.getElementById("surname").value.trim();
+    const service = services[index];
 
-const name =
-document.getElementById("name").value.trim();
+    if (checkbox.checked) {
 
-if(!surname || !name) {
+        if (service.group === "all") {
 
-alert("Введіть ім'я та прізвище.");
+            document.querySelectorAll("#services input").forEach(input => {
+                input.checked = false;
+            });
 
-return;
+            selectedServices = [];
 
-}
+            selectComplex(service.name);
 
-const patient = {
+        } else {
 
-id: Date.now(),
+            selectedServices.push(service);
 
-card:
-"DB-" +
-Math.floor(
-100000 +
-Math.random() * 900000
-),
+        }
 
-surname,
-name,
+    } else {
 
-birth:
-document.getElementById("birth").value,
+        selectedServices = selectedServices.filter(
+            s => s.name !== service.name
+        );
 
-phone:
-document.getElementById("phone").value,
+    }
 
-note:
-document.getElementById("note").value,
-
-created:
-new Date().toLocaleDateString("uk-UA")
-
-};
-
-patients.push(patient);
-
-saveData();
-
-document.getElementById("surname").value="";
-document.getElementById("name").value="";
-document.getElementById("birth").value="";
-document.getElementById("phone").value="";
-document.getElementById("note").value="";
-
-alert(
-"Пацієнта зареєстровано!\n\n" +
-"Номер картки: " +
-patient.card
-);
-
-renderPatients();
-
+    updateRate();
 }
 
 
-function renderPatients() {
+// ВСЕ АВТО
 
-const list =
-document.getElementById("patientsList");
+function selectAllCar() {
 
-const search =
-document.getElementById("patientSearch")
-.value
-.toLowerCase();
+    document.querySelectorAll("#services input").forEach(input => {
+        input.checked = false;
+    });
 
-list.innerHTML="";
+    selectedServices = [];
 
-patients
-.filter(p =>
-(p.name+" "+p.surname)
-.toLowerCase()
-.includes(search)
-)
-.forEach(p => {
+    const everything = services.find(s => s.name === "🚿 Все авто");
 
-list.innerHTML += `
+    selectedServices.push(everything);
 
-<div class="patient-card">
+    const checkbox = [...document.querySelectorAll("#services input")]
+        .find(input =>
+            services[input.dataset.index].name === everything.name
+        );
 
-<h3>
-${p.surname} ${p.name}
-</h3>
+    if (checkbox) checkbox.checked = true;
 
-<span class="tag">
-${p.card}
-</span>
-
-<br><br>
-
-<b>Дата народження:</b>
-${p.birth || "—"}
-
-<br>
-
-<b>Телефон:</b>
-${p.phone || "—"}
-
-<br><br>
-
-<b>Примітка:</b>
-${p.note || "Немає"}
-
-<br><br>
-
-<button
-class="btn red"
-onclick="deletePatient(${p.id})">
-Видалити
-</button>
-
-</div>
-
-`;
-
-});
-
+    updateRate();
 }
 
 
-function deletePatient(id) {
+// КОМПЛЕКС
 
-if(!confirm("Видалити пацієнта?"))
-return;
+function selectComplex(name) {
 
-patients =
-patients.filter(p =>
-p.id !== id
-);
+    const service = services.find(s => s.name === name);
 
-saveData();
+    if (service) selectedServices = [service];
 
-renderPatients();
-
+    updateRate();
 }
 
 
-/* =========================
-ЛІКАРІ
-========================= */
+// ЦІНА ЗА ХВИЛИНУ
 
-function addDoctor() {
+function updateRate() {
 
-const name =
-document.getElementById("doctorName")
-.value.trim();
+    currentRate = selectedServices.reduce(
+        (sum, service) => sum + service.price,
+        0
+    );
 
-cialty =
-document.getElementById("doctorSpecialty")
-.value.trim();
+    document.getElementById("rate").textContent =
+        currentRate.toFixed(2);
 
-if(!name || !specialty) {
-
-alert("Заповніть дані.");
-
-return;
-
-}
-
-doctors.push({
-
-id: Date.now(),
-
-name,
-specialty
-
-});
-
-saveData();
-
-document.getElementById("doctorName").value="";
-document.getElementById("doctorSpecialty").value="";
-
-renderDoctors();
-
+    updateLivePrice();
 }
 
 
-function renderDoctors() {
+// ТАЙМЕР
 
-const table =
-document.getElementById("doctorsTable");
+function startTimer() {
 
-table.innerHTML="";
+    if (running) return;
 
-doctors.forEach(d => {
+    if (selectedServices.length === 0) {
+        alert("Спочатку вибери послугу!");
+        return;
+    }
 
-table.innerHTML += `
+    running = true;
 
-<tr>
+    timerInterval = setInterval(() => {
 
-<td>${d.name}</td>
+        seconds++;
 
-<td>${d.specialty}</td>
+        updateTimer();
 
-<td>
-
-<button
-class="btn red"
-onclick="deleteDoctor(${d.id})">
-Видалити
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
+    }, 1000);
 }
 
 
-function deleteDoctor(id) {
+function pauseTimer() {
 
-if(!confirm("Видалити лікаря?"))
-return;
+    running = false;
 
-doctors =
-doctors.filter(d =>
-d.id !== id
-);
+    clearInterval(timerInterval);
 
-saveData();
-
-renderDoctors();
-
+    timerInterval = null;
 }
 
 
-/* =========================
-КАБІНЕТИ
-========================= */
+function updateTimer() {
 
-function addRoom() {
+    const minutes = Math.floor(seconds / 60);
 
-const number =
-document.getElementById("roomNumber")
-.value.trim();
+    const secs = seconds % 60;
 
-const type =
-document.getElementById("roomType")
-.value;
+    document.getElementById("timer").textContent =
+        String(minutes).padStart(2,"0") + ":" +
+        String(secs).padStart(2,"0");
 
-const doctorId =
-document.getElementById("roomDoctor")
-.value;
-
-const shiftStart =
-document.getElementById("shiftStart")
-.value;
-
-const shiftEnd =
-document.getElementById("shiftEnd")
-.value;
-
-const status =
-document.getElementById("roomStatus")
-.value;
-
-if(!number) {
-
-alert("Вкажіть номер кабінету.");
-
-return;
-
-}
-
-rooms.push({
-
-id: Date.now(),
-
-number,
-type,
-
-doctorId:
-doctorId
-? Number(doctorId)
-: null,
-
-shiftStart,
-shiftEnd,
-status
-
-});
-
-saveData();
-
-document.getElementById("roomNumber").value="";
-
-renderRooms();
-
-alert(
-"Кабінет №" +
-number +
-" додано!"
-);
-
+    updateLivePrice();
 }
 
 
-function renderRooms() {
+function updateLivePrice() {
 
-const list =
-document.getElementById("roomsList");
+    let money = (seconds / 60) * currentRate;
 
-list.innerHTML="";
-
-rooms.forEach(room => {
-
-const doctor =
-doctors.find(d =>
-d.id === room.doctorId
-);
-
-const doctorName =
-doctor
-? doctor.name
-: "Лікар не призначений";
-
-const statusText =
-room.status === "on"
-? "🟢 На зміні"
-: "🔴 Не на зміні";
-
-const statusClass =
-room.status === "on"
-? "on"
-: "off";
-
-list.innerHTML += `
-
-<div class="room-card">
-
-<div class="room-number">
-Кабінет №${room.number}
-</div>
-
-<br>
-
-<h3>
-🩺 ${room.type}
-</h3>
-
-<br>
-
-<b>👨‍⚕️ Лікар:</b>
-
-<br>
-
-${doctorName}
-
-<br><br>
-
-<b>🕐 Зміна:</b>
-
-<br>
-
-${room.shiftStart}
-—
-${room.shiftEnd}
-
-<br>
-
-<span class="status ${statusClass}">
-${statusText}
-</span>
-
-<br><br>
-
-<button
-class="btn red"
-onclick="deleteRoom(${room.id})">
-Видалити
-</button>
-
-</div>
-
-`;
-
-});
-
+    document.getElementById("livePrice").textContent =
+        money.toFixed(2);
 }
 
 
-function deleteRoom(id) {
+// ЗАВЕРШЕННЯ
 
-if(!confirm("Видалити кабінет?"))
-return;
+function finishWash() {
 
-rooms =
-rooms.filter(r =>
-r.id !== id
-);
+    if (seconds === 0) {
+        alert("Мийка ще не розпочата.");
+        return;
+    }
 
-saveData();
+    pauseTimer();
 
-renderRooms();
+    const client = document.getElementById("clientName").value || "Без імені";
 
+    const car =
+        (document.getElementById("carBrand").value || "") +
+        " " +
+        (document.getElementById("carModel").value || "");
+
+    const type = document.getElementById("carType").value || "Авто";
+
+    const worker =
+        document.getElementById("workerSelect").value || "Не вказано";
+
+    const finalPrice = (seconds / 60) * currentRate;
+
+    const order = {
+
+        id: Date.now(),
+
+        client,
+        car,
+        type,
+        worker,
+
+        services: selectedServices.map(s => s.name),
+
+        seconds,
+
+        price: finalPrice,
+
+        date: new Date().toLocaleString("uk-UA")
+
+    };
+
+    history.unshift(order);
+
+    localStorage.setItem(
+        "history",
+        JSON.stringify(history)
+    );
+
+    alert(
+        "✅ Мийку завершено!\n\n" +
+        "Клієнт: " + client +
+        "\nАвто: " + car +
+        "\nЧас: " + formatTime(seconds) +
+        "\nСума: " + finalPrice.toFixed(2) + " грн"
+    );
+
+    resetWash();
+
+    renderHistory();
 }
 
 
-/* =========================
-ЗАПИСИ
-========================= */
+// СКИДАННЯ
 
-function updateSelects() {
+function resetWash() {
 
-const patientSelect =
-document.getElementById(
-"appointmentPatient"
-);
+    pauseTimer();
 
-const testPatient =
-document.getElementById(
-"testPatient"
-);
+    seconds = 0;
 
-patientSelect.innerHTML="";
-testPatient.innerHTML="";
+    selectedServices = [];
 
-patients.forEach(p => {
+    currentRate = 0;
 
-const option =
-document.createElement("option");
+    document.getElementById("timer").textContent = "00:00";
 
-option.value=p.id;
+    document.getElementById("livePrice").textContent = "0.00";
 
-option.textContent =
-`${p.surname} ${p.name} (${p.card})`;
+    document.getElementById("rate").textContent = "0";
 
-patientSelect.appendChild(option);
-
-testPatient.appendChild(
-option.cloneNode(true)
-);
-
-});
-
-
-const doctorSelect =
-document.getElementById(
-"appointmentDoctor"
-);
-
-doctorSelect.innerHTML="";
-
-doctors.forEach(d => {
-
-const option =
-document.createElement("option");
-
-option.value=d.id;
-
-option.textContent =
-`${d.name} — ${d.specialty}`;
-
-doctorSelect.appendChild(option);
-
-});
-
-
-const roomDoctor =
-document.getElementById(
-"roomDoctor"
-);
-
-roomDoctor.innerHTML =
-'<option value="">Без лікаря</option>';
-
-doctors.forEach(d => {
-
-const option =
-document.createElement("option");
-
-option.value=d.id;
-
-option.textContent =
-`${d.name} — ${d.specialty}`;
-
-roomDoctor.appendChild(option);
-
-});
-
-
-const appointmentRoom =
-document.getElementById(
-"appointmentRoom"
-);
-
-appointmentRoom.innerHTML="";
-
-rooms.forEach(r => {
-
-const doctor =
-doctors.find(d =>
-d.id === r.doctorId
-);
-
-const option =
-document.createElement("option");
-
-option.value=r.id;
-
-option.textContent =
-`№${r.number} — ${r.type}` +
-(doctor
-? ` — ${doctor.name}`
-: "");
-
-appointmentRoom.appendChild(option);
-
-});
-
+    document.querySelectorAll("#services input").forEach(
+        input => input.checked = false
+    );
 }
 
 
-function addAppointment() {
+// СПІВРОБІТНИКИ
 
-if(patients.length === 0) {
+function addWorker() {
 
-alert("Спочатку додайте пацієнта.");
+    const name =
+        document.getElementById("workerName").value.trim();
 
-return;
+    const position =
+        document.getElementById("workerPosition").value.trim();
 
-}
+    if (!name) {
+        alert("Введи ім'я співробітника.");
+        return;
+    }
 
-const patientId =
-Number(
-document.getElementById(
-"appointmentPatient"
-).value
-);
+    workers.push({
+        id: Date.now(),
+        name,
+        position: position || "Співробітник"
+    });
 
-const doctorId =
-Number(
-document.getElementById(
-"appointmentDoctor"
-).value
-);
+    localStorage.setItem(
+        "workers",
+        JSON.stringify(workers)
+    );
 
-const roomId =
-Number(
-document.getElementById(
-"appointmentRoom"
-).value
-);
+    document.getElementById("workerName").value = "";
+    document.getElementById("workerPosition").value = "";
 
-const date =
-document.getElementById(
-"appointmentDate"
-).value;
-
-const time =
-document.getElementById(
-"appointmentTime"
-).value;
-
-if(!date || !time) {
-
-alert("Вкажіть дату та час.");
-
-return;
-
-}
-
-appointments.push({
-
-id: Date.now(),
-
-patientId,
-doctorId,
-roomId,
-
-date,
-time
-
-});
-
-saveData();
-
-alert("Запис створено!");
-
-renderAppointments();
-
+    renderWorkers();
+    updateWorkerSelect();
 }
 
 
-function renderAppointments() {
+function renderWorkers() {
 
-const table =
-document.getElementById(
-"appointmentsTable"
-);
+    const box = document.getElementById("workerList");
 
-table.innerHTML="";
+    box.innerHTML = "";
 
-appointments
-.sort((a,b) =>
-(a.date+a.time)
-.localeCompare(
-b.date+b.time
-)
-)
-.forEach(a => {
+    if (workers.length === 0) {
+        box.innerHTML = "<p>Співробітників ще немає.</p>";
+        return;
+    }
 
-const patient =
-patients.find(p =>
-p.id === a.patientId
-);
+    workers.forEach(worker => {
 
-const doctor =
-doctors.find(d =>
-d.id === a.doctorId
-);
-
-const room =
-rooms.find(r =>
-r.id === a.roomId
-);
-
-table.innerHTML += `
-
-<tr>
-
-<td>${a.date}</td>
-
-<td>${a.time}</td>
-
-<td>
-${patient
-? patient.surname+" "+patient.name
-: "Невідомий"}
-</td>
-
-<td>
-${doctor
-? doctor.name
-: "Невідомий"}
-</td>
-
-<td>
-${room
-? "№"+room.number+" — "+room.type
-: "—"}
-</td>
-
-<td>
-
-<button
-class="btn red"
-onclick="deleteAppointment(${a.id})">
-✕
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
+        box.innerHTML += `
+            <div class="order">
+                <b>👤 ${worker.name}</b>
+                <div class="badge">${worker.position}</div>
+                <br><br>
+                <button class="main-btn red"
+                    onclick="deleteWorker(${worker.id})">
+                    Видалити
+                </button>
+            </div>
+        `;
+    });
 }
 
 
-function deleteAppointment(id) {
+function deleteWorker(id) {
 
-appointments =
-appointments.filter(a =>
-a.id !== id
-);
+    workers = workers.filter(w => w.id !== id);
 
-saveData();
+    localStorage.setItem(
+        "workers",
+        JSON.stringify(workers)
+    );
 
-renderAppointments();
-
+    renderWorkers();
+    updateWorkerSelect();
 }
 
 
-/* =========================
-АНАЛІЗИ
-========================= */
+function updateWorkerSelect() {
 
-function addTest() {
+    const select =
+        document.getElementById("workerSelect");
 
-if(patients.length === 0) {
+    select.innerHTML =
+        `<option value="">Оберіть співробітника</option>`;
 
-alert("Спочатку додайте пацієнта.");
+    workers.forEach(worker => {
 
-return;
-
-}
-
-const patientId =
-Number(
-document.getElementById(
-"testPatient"
-).value
-);
-
-const name =
-document.getElementById(
-"testName"
-).value.trim();
-
-const result =
-document.getElementById(
-"testResult"
-).value.trim();
-
-const date =
-document.getElementById(
-"testDate"
-).value;
-
-if(!name || !result || !date) {
-
-alert("Заповніть усі поля.");
-
-return;
-
-}
-
-tests.push({
-
-id: Date.now(),
-
-patientId,
-name,
-result,
-date
-
-});
-
-saveData();
-
-renderTests();
-
-alert("Аналіз збережено.");
-
+        select.innerHTML += `
+            <option>
+                ${worker.name}
+            </option>
+        `;
+    });
 }
 
 
-function renderTests() {
+// БРОНЮВАННЯ
 
-const table =
-document.getElementById(
-"testsTable"
-);
+function addBooking() {
 
-table.innerHTML="";
+    const name =
+        document.getElementById("bookName").value.trim();
 
-tests.forEach(t => {
+    const car =
+        document.getElementById("bookCar").value.trim();
 
-const patient =
-patients.find(p =>
-p.id === t.patientId
-);
+    const date =
+        document.getElementById("bookDate").value;
 
-table.innerHTML += `
+    const time =
+        document.getElementById("bookTime").value;
 
-<tr>
+    const service =
+        document.getElementById("bookService").value;
 
-<td>${t.date}</td>
+    if (!name || !car || !date || !time) {
 
-<td>
-${patient
-? patient.surname+" "+patient.name
-: "Невідомий"}
-</td>
+        alert("Заповни всі поля.");
 
-<td>${t.name}</td>
+        return;
+    }
 
-<td>${t.result}</td>
+    bookings.push({
 
-<td>
+        id: Date.now(),
 
-<button
-class="btn red"
-onclick="deleteTest(${t.id})">
-✕
-</button>
+        name,
+        car,
+        date,
+        time,
+        service
 
-</td>
+    });
 
-</tr>
+    bookings.sort((a,b) =>
+        (a.date + a.time).localeCompare(
+            b.date + b.time
+        )
+    );
 
-`;
+    localStorage.setItem(
+        "bookings",
+        JSON.stringify(bookings)
+    );
 
-});
+    document.getElementById("bookName").value = "";
+    document.getElementById("bookCar").value = "";
 
+    renderBookings();
 }
 
 
-function deleteTest(id) {
+function renderBookings() {
 
-tests =
-tests.filter(t =>
-t.id !== id
-);
+    const box =
+        document.getElementById("bookingList");
 
-saveData();
+    box.innerHTML = "";
 
-renderTests();
+    if (bookings.length === 0) {
 
+        box.innerHTML =
+            "<p>Записів поки немає.</p>";
+
+        return;
+    }
+
+    bookings.forEach(b => {
+
+        box.innerHTML += `
+            <div class="order">
+
+                <b>👤 ${b.name}</b>
+
+                <br>
+                🚗 ${b.car}
+
+                <br>
+                📅 ${b.date}
+                ⏰ ${b.time}
+
+                <br>
+                🧽 ${b.service}
+
+                <br><br>
+
+                <button
+                    class="main-btn red"
+                    onclick="deleteBooking(${b.id})">
+                    Видалити
+                </button>
+
+            </div>
+        `;
+    });
 }
 
 
-/* =========================
-ГОЛОВНА
-========================= */
+function deleteBooking(id) {
 
-function updateDashboard() {
+    bookings =
+        bookings.filter(b => b.id !== id);
 
-document.getElementById(
-"countPatients"
-).textContent =
-patients.length;
+    localStorage.setItem(
+        "bookings",
+        JSON.stringify(bookings)
+    );
 
-document.getElementById(
-"countAppointments"
-).textContent =
-appointments.length;
-
-document.getElementById(
-"countDoctors"
-).textContent =
-doctors.length;
-
-document.getElementById(
-"countRooms"
-).textContent =
-rooms.length;
-
-document.getElementById(
-"countTests"
-).textContent =
-tests.length;
-
-
-const homeRooms =
-document.getElementById(
-"homeRooms"
-);
-
-homeRooms.innerHTML="";
-
-rooms.forEach(room => {
-
-const doctor =
-doctors.find(d =>
-d.id === room.doctorId
-);
-
-homeRooms.innerHTML += `
-
-<div class="room-card">
-
-<div class="room-number">
-№${room.number}
-</div>
-
-<h3>${room.type}</h3>
-
-<br>
-
-👨‍⚕️
-${doctor
-? doctor.name
-: "Без лікаря"}
-
-<br>
-
-🕐
-${room.shiftStart}
-—
-${room.shiftEnd}
-
-<br>
-
-<span class="status
-${room.status === "on"
-? "on"
-: "off"}">
-
-${room.status === "on"
-? "🟢 На зміні"
-: "🔴 Не на зміні"}
-
-</span>
-
-</div>
-
-`;
-
-});
-
+    renderBookings();
 }
 
 
-/* =========================
-ЕКСПОРТ
-========================= */
+// ІСТОРІЯ
 
-function exportData() {
+function renderHistory() {
 
-const data = {
+    const box =
+        document.getElementById("historyList");
 
-patients,
-doctors,
-appointments,
-tests,
-rooms
+    box.innerHTML = "";
 
-};
+    if (history.length === 0) {
 
-const blob =
-new Blob(
-[
-JSON.stringify(
-data,
-null,
-2
-)
-],
-{
-type:"application/json"
-}
-);
+        box.innerHTML =
+            "<p>Історія порожня.</p>";
 
-const url =
-URL.createObjectURL(blob);
+        return;
+    }
 
-const a =
-document.createElement("a");
+    history.forEach(order => {
 
-a.href=url;
+        box.innerHTML += `
 
-a.download =
-"dobrobut-klinika-backup.json";
+        <div class="order">
 
-a.click();
+            <b>🚗 ${order.car}</b>
 
-URL.revokeObjectURL(url);
+            <br>
+            👤 ${order.client}
 
-}
+            <br>
+            👨‍🔧 ${order.worker}
 
+            <br>
+            ⏱️ ${formatTime(order.seconds)}
 
-/* =========================
-ІМПОРТ
-========================= */
+            <br>
+            🧽 ${order.services.join(", ")}
 
-function importData(event) {
+            <br>
+            📅 ${order.date}
 
-const file =
-event.target.files[0];
+            <div class="total">
+                💰 ${order.price.toFixed(2)} грн
+            </div>
 
-if(!file)
-return;
+        </div>
 
-const reader =
-new FileReader();
-
-reader.onload =
-function(e) {
-
-try {
-
-const data =
-JSON.parse(
-e.target.result
-);
-
-patients =
-data.patients || [];
-
-doctors =
-data.doctors || [];
-
-appointments =
-data.appointments || [];
-
-tests =
-data.tests || [];
-
-rooms =
-data.rooms || [];
-
-saveData();
-
-renderAll();
-
-alert(
-"Базу успішно імпортовано!"
-);
-
-}
-
-catch {
-
-alert(
-"Помилка імпорту."
-);
-
-}
-
-};
-
-reader.readAsText(file);
-
+        `;
+    });
 }
 
 
-/* =========================
-ОЧИЩЕННЯ
-========================= */
+// ФОРМАТ ЧАСУ
 
-function clearDatabase() {
+function formatTime(totalSeconds) {
 
-if(!confirm(
-"УВАГА!\n\n" +
-"Видалити всю базу клініки?"
-))
-return;
+    const minutes =
+        Math.floor(totalSeconds / 60);
 
-patients=[];
-doctors=[];
-appointments=[];
-tests=[];
-rooms=[];
+    const seconds =
+        totalSeconds % 60;
 
-saveData();
-
-renderAll();
-
-alert("Базу очищено.");
-
+    return (
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0")
+    );
 }
 
 
-/* =========================
-RENDER
-========================= */
+// ЗАПУСК
 
 function renderAll() {
 
-updateDashboard();
-
-renderPatients();
-
-renderDoctors();
-
-renderRooms();
-
-renderAppointments();
-
-renderTests();
-
-updateSelects();
-
+    renderWorkers();
+    updateWorkerSelect();
+    renderBookings();
+    renderHistory();
 }
 
+renderServices();
 renderAll();
 
 </script>
